@@ -6,4 +6,7 @@ import lombok.Data;
 public class UserDto {
     private Integer userSeq;
     private String userId;
+    private String userPassword;
+    private String userLoginDt;
+    private String userSubmitDt;
 }
