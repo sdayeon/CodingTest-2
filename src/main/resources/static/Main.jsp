@@ -17,11 +17,11 @@
     <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption4}" value="4" class="p-1"/></p>
     <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption5}" value="5" class="p-1"/></p>
 </th:block>
-<input type="button" class="btn btn-outline-primary" id="summit" value="제출하기"/>
+<input type="button" class="btn btn-outline-primary" id="submit" value="제출하기"/>
 
 <script th:inline="javascript">
     $(document).ready(function () {
-        $("#summit").click(function (){
+        $("#submit").click(function (){
             let qSize = [[${question.size()}]];
             let qString ="";
 
@@ -42,7 +42,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/summitMCQ"
+                , url: "/submitMCQ"
                 , data: {
                     "userSeq":2
                     , "mcqResult": qString

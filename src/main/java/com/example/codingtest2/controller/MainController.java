@@ -2,7 +2,6 @@ package com.example.codingtest2.controller;
 
 import com.example.codingtest2.dto.MCQResultDto;
 import com.example.codingtest2.service.MCQService;
-import com.example.codingtest2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MainController {
     private final MCQService mcqService;
-    private final UserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(Model model) {
@@ -23,8 +21,8 @@ public class MainController {
     }
 
     @ResponseBody
-    @PostMapping(value = "/summitMCQ")
-    public String summitMCQ(@ModelAttribute MCQResultDto dto) {
+    @PostMapping(value = "/submitMCQ")
+    public String submitMCQ(@ModelAttribute MCQResultDto dto) {
         mcqService.insertResult(dto);
         return "Main";
     }
