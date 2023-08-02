@@ -1,0 +1,34 @@
+package com.example.codingtest2.entity;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Getter
+@Entity
+@Table(name = "TBL_MCQ_RESULT")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MCQResult {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "mcq_reulst_seq")
+    private Integer mcqResultSeq;
+
+    @Column(name = "mcq_result")
+    private String mcqResult;
+
+    @OneToOne
+    @JoinColumn(name = "user_seq")
+    private User user;
+
+    @Builder
+    public MCQResult(Integer mcqResultSeq, String mcqResult, User user) {
+        this.mcqResultSeq = mcqResultSeq;
+        this.mcqResult = mcqResult;
+        this.user = user;
+    }
+}

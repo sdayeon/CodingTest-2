@@ -14,8 +14,8 @@ public class MCQuestion {
 
     @Id
     @GeneratedValue
-    @Column(name = "mcq_id")
-    private Integer mcqId;
+    @Column(name = "mcq_seq")
+    private Integer mcqSeq;
 
     @Column(name = "mcq_question")
     private String mcqQuestion;
