@@ -3,6 +3,7 @@ package com.example.codingtest2.controller;
 import com.example.codingtest2.dto.MCQResultDto;
 import com.example.codingtest2.dto.UserDto;
 import com.example.codingtest2.entity.User;
+import com.example.codingtest2.service.MCQResultService;
 import com.example.codingtest2.service.MCQService;
 import com.example.codingtest2.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j
@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 public class MainController {
     private final MCQService mcqService;
     private final UserService userService;
+    private final MCQResultService mcqResultService;
 
     @GetMapping(value = "/")
     public String login(HttpServletRequest request) {
@@ -70,6 +71,7 @@ public class MainController {
     @PostMapping(value = "/submitMCQ")
     public String submitMCQ(@ModelAttribute MCQResultDto dto, @SessionAttribute("user") User user) {
         dto.setUserSeq(user.getUserSeq());
+        dto.setMcqResultScore(mcqResultService.setResultScore(dto, user));
         mcqService.insertResult(dto);
         return "Main";
     }

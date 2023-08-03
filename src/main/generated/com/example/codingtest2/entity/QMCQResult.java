@@ -24,6 +24,8 @@ public class QMCQResult extends EntityPathBase<MCQResult> {
 
     public final StringPath mcqResult = createString("mcqResult");
 
+    public final NumberPath<Integer> mcqResultScore = createNumber("mcqResultScore", Integer.class);
+
     public final NumberPath<Integer> mcqResultSeq = createNumber("mcqResultSeq", Integer.class);
 
     public final QUser user;

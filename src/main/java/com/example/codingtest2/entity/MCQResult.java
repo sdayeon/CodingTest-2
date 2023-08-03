@@ -25,10 +25,14 @@ public class MCQResult {
     @JoinColumn(name = "user_seq")
     private User user;
 
+    @Column(name = "mcq_result_score")
+    private Integer mcqResultScore;
+
     @Builder
-    public MCQResult(Integer mcqResultSeq, String mcqResult, User user) {
+    public MCQResult(Integer mcqResultSeq, String mcqResult, User user, Integer mcqResultScore) {
         this.mcqResultSeq = mcqResultSeq;
         this.mcqResult = mcqResult;
         this.user = user;
+        this.mcqResultScore = mcqResultScore;
     }
 }

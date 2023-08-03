@@ -39,6 +39,7 @@ public class MCQService {
         MCQResult result = MCQResult.builder()
                 .mcqResult(dto.getMcqResult())
                 .user(uu)
+                .mcqResultScore(dto.getMcqResultScore())
                 .build();
 
         mcqResultRepository.save(result);
