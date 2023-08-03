@@ -9,4 +9,5 @@ public class UserDto {
     private String userPassword;
     private String userLoginDt;
     private String userSubmitDt;
+    private String userLevel;
 }

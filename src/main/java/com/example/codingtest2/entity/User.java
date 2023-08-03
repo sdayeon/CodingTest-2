@@ -36,4 +36,7 @@ public class User {
 
     @Column(name = "user_test_end")
     private LocalDateTime userTestEnd;
+
+    @Column(name = "user_level")
+    private String userLevel;
 }

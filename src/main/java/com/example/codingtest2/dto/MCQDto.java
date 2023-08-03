@@ -12,4 +12,5 @@ public class MCQDto {
     private String mcqOption3;
     private String mcqOption4;
     private String mcqOption5;
+    private String mcqLevel;
 }

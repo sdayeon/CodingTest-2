@@ -37,4 +37,7 @@ public class MCQuestion {
 
     @Column(name = "mcq_option5")
     private String mcqOption5;
+
+    @Column(name = "mcq_level")
+    private String mcqLevel;
 }

@@ -21,6 +21,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath userId = createString("userId");
 
+    public final StringPath userLevel = createString("userLevel");
+
     public final DateTimePath<java.time.LocalDateTime> userLoginDt = createDateTime("userLoginDt", java.time.LocalDateTime.class);
 
     public final StringPath userPassword = createString("userPassword");
