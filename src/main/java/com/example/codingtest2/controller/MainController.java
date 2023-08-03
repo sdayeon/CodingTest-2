@@ -30,23 +30,36 @@ public class MainController {
     public String loginCheck(@ModelAttribute UserDto dto, Model model, HttpServletRequest request) {
         Integer resultSeq = userService.loginCheck(dto);
 
-        if(resultSeq==0){
-            log.info("Login Fail : {}/{}", dto.getUserId(), dto.getUserPassword());
-            model.addAttribute("error", "error");
-            return "Login";
-        } else {
-            log.info("Login Success : {}", dto.getUserId());
-            dto.setUserSeq(resultSeq);
+        switch (resultSeq){
+            case 0 -> {
+                log.info("[Login Fail] Not found : {}/{}", dto.getUserId(), dto.getUserPassword());
+                model.addAttribute("error", "사용자 계정이 없습니다.");
+                return "Login";
+            }
+            case -1 -> {
+                log.info("[Login Fail] Incorrect password : {}/{}", dto.getUserId(), dto.getUserPassword());
+                model.addAttribute("error", "비밀번호를 잘못 입력하였습니다.");
+                return "Login";
+            }
+            case -2 -> {
+                log.info("[Login Fail] Not test time : {}/{}", dto.getUserId(), dto.getUserPassword());
+                model.addAttribute("error", "시험 응시 기간이 아닙니다.");
+                return "Login";
+            }
+            default -> {
+                log.info("[Login Success] : {}", dto.getUserId());
+                dto.setUserSeq(resultSeq);
 
-            HttpSession session = request.getSession();
-            session.setAttribute("user", dto);
-            return "redirect:main";
+                HttpSession session = request.getSession();
+                session.setAttribute("user", dto);
+                return "redirect:main";
+            }
         }
     }
 
     @GetMapping(value = "/main")
     public String main(Model model, @SessionAttribute("user") UserDto user) {
-        userService.loginTimeCheck(user.getUserSeq());
+        userService.setLoginDt(user.getUserSeq());
         model.addAttribute("userId", user.getUserId());
         model.addAttribute("question", mcqService.findAll());
         return "Main";

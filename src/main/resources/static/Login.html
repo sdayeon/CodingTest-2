@@ -16,7 +16,7 @@
 <script th:inline="javascript">
     $(document).ready(function () {
         let errorMsg = [[${error}]];
-        if(errorMsg!=null) alert("Login Fail");
+        if(errorMsg!=null) alert(errorMsg);
     });
 </script>
 </body>

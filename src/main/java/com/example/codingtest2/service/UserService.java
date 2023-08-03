@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-//import static com.example.codingtest2.entity.QUser.user;
+import static com.example.codingtest2.entity.QUser.user;
 
 @Slf4j
 @Service
@@ -27,19 +27,22 @@ public class UserService {
     }
 
     public Integer loginCheck(UserDto dto){
-//        User uu = queryFactory.selectFrom(user).where(user.userId.eq(dto.getUserId())).fetchOne();
-//        if(uu==null) return 0;
-//
-//        if(uu.getUserPassword().equals(dto.getUserPassword()))
-//            return uu.getUserSeq();
+        LocalDateTime now = LocalDateTime.now();
+        User uu = queryFactory.selectFrom(user).where(user.userId.eq(dto.getUserId())).fetchOne();
 
-        return 0;
+        if(uu==null) return 0;
+        if(!uu.getUserPassword().equals(dto.getUserPassword())) return -1;
+
+        if(!uu.getUserTestStart().isBefore(now)) return -2;
+        if(!uu.getUserTestEnd().isAfter(now)) return -2;
+
+        return uu.getUserSeq();
     }
 
-    public void loginTimeCheck(Integer userSeq){
-//        queryFactory.update(user)
-//                .set(user.loginDt, LocalDateTime.now())
-//                .where(user.userSeq.eq(userSeq))
-//                .execute();
+    public void setLoginDt(Integer userSeq){
+        queryFactory.update(user)
+                .set(user.userLoginDt, LocalDateTime.now())
+                .where(user.userSeq.eq(userSeq))
+                .execute();
     }
 }

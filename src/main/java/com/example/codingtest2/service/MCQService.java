@@ -12,9 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
-//import static com.example.codingtest2.entity.QUser.user;
+import static com.example.codingtest2.entity.QUser.user;
 
 @Slf4j
 @Service
@@ -38,9 +39,9 @@ public class MCQService {
                 .build();
 
         mcqResultRepository.save(result);
-//        queryFactory.update(user)
-//                .set(user.submitDt, LocalDateTime.now())
-//                .where(user.userSeq.eq(uu.getUserSeq()))
-//                .execute();
+        queryFactory.update(user)
+                .set(user.userSubmitDt, LocalDateTime.now())
+                .where(user.userSeq.eq(uu.getUserSeq()))
+                .execute();
     }
 }
