@@ -31,11 +31,11 @@ public class MainController {
         Integer resultSeq = userService.loginCheck(dto);
 
         if(resultSeq==0){
-            log.info("Login Fail");
+            log.info("Login Fail : {}/{}", dto.getUserId(), dto.getUserPassword());
             model.addAttribute("error", "error");
             return "Login";
         } else {
-            log.info("Login Success");
+            log.info("Login Success : {}", dto.getUserId());
             dto.setUserSeq(resultSeq);
 
             HttpSession session = request.getSession();

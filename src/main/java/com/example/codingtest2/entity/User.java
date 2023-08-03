@@ -25,9 +25,15 @@ public class User {
     @Column(name = "user_password")
     private String userPassword;
 
-    @Column(name = "user_loginDt")
-    private LocalDateTime loginDt;
+    @Column(name = "user_login_dt")
+    private LocalDateTime userLoginDt;
 
-    @Column(name = "user_submitDt")
-    private LocalDateTime submitDt;
+    @Column(name = "user_submit_dt")
+    private LocalDateTime userSubmitDt;
+
+    @Column(name = "user_test_start")
+    private LocalDateTime userTestStart;
+
+    @Column(name = "user_test_end")
+    private LocalDateTime userTestEnd;
 }

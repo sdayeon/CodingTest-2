@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.example.codingtest2.entity.QUser.user;
+//import static com.example.codingtest2.entity.QUser.user;
 
 @Slf4j
 @Service
@@ -27,19 +27,19 @@ public class UserService {
     }
 
     public Integer loginCheck(UserDto dto){
-        User uu = queryFactory.selectFrom(user).where(user.userId.eq(dto.getUserId())).fetchOne();
-        if(uu==null) return 0;
-
-        if(uu.getUserPassword().equals(dto.getUserPassword()))
-            return uu.getUserSeq();
+//        User uu = queryFactory.selectFrom(user).where(user.userId.eq(dto.getUserId())).fetchOne();
+//        if(uu==null) return 0;
+//
+//        if(uu.getUserPassword().equals(dto.getUserPassword()))
+//            return uu.getUserSeq();
 
         return 0;
     }
 
     public void loginTimeCheck(Integer userSeq){
-        queryFactory.update(user)
-                .set(user.loginDt, LocalDateTime.now())
-                .where(user.userSeq.eq(userSeq))
-                .execute();
+//        queryFactory.update(user)
+//                .set(user.loginDt, LocalDateTime.now())
+//                .where(user.userSeq.eq(userSeq))
+//                .execute();
     }
 }

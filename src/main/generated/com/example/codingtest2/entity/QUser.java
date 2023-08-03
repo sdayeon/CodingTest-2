@@ -19,15 +19,19 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
-    public final DateTimePath<java.time.LocalDateTime> loginDt = createDateTime("loginDt", java.time.LocalDateTime.class);
-
-    public final DateTimePath<java.time.LocalDateTime> submitDt = createDateTime("submitDt", java.time.LocalDateTime.class);
-
     public final StringPath userId = createString("userId");
+
+    public final DateTimePath<java.time.LocalDateTime> userLoginDt = createDateTime("userLoginDt", java.time.LocalDateTime.class);
 
     public final StringPath userPassword = createString("userPassword");
 
     public final NumberPath<Integer> userSeq = createNumber("userSeq", Integer.class);
+
+    public final DateTimePath<java.time.LocalDateTime> userSubmitDt = createDateTime("userSubmitDt", java.time.LocalDateTime.class);
+
+    public final DateTimePath<java.time.LocalDateTime> userTestEnd = createDateTime("userTestEnd", java.time.LocalDateTime.class);
+
+    public final DateTimePath<java.time.LocalDateTime> userTestStart = createDateTime("userTestStart", java.time.LocalDateTime.class);
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));
