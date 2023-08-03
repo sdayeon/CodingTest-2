@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Controller
@@ -59,7 +61,8 @@ public class MainController {
     @GetMapping(value = "/main")
     public String main(Model model, @SessionAttribute("user") User user) {
         userService.setLoginDt(user.getUserSeq());
-        model.addAttribute("userId", user.getUserId());
+        model.addAttribute("userInfo", user);
+        model.addAttribute("timer", user.getUserTestEnd().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
         model.addAttribute("question", mcqService.findByLevel(user.getUserLevel()));
         return "Main";
     }

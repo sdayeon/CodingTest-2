@@ -8,14 +8,18 @@
     <title>Main</title>
 </head>
 <body class="p-3 w-50">
-<p>응시자 : <span th:text="${userId}"></span></p>
+<div class="p-1 m-1">
+    응시자 : <span th:text="${userInfo?.userId}"></span><br>
+    레벨 : <span th:text="${userInfo?.userLevel}"></span><br>
+    <p id="timer"></p>
+</div>
 <th:block th:each="q, qq:${question}" class="p-1 m-3">
     <span th:text="${qq.count}"></span>. <label th:text="${q.mcqQuestion}" class="mb-3"></label>
-    <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption1}" value="1" class="p-1"/></p>
-    <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption2}" value="2" class="p-1"/></p>
-    <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption3}" value="3" class="p-1"/></p>
-    <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption4}" value="4" class="p-1"/></p>
-    <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption5}" value="5" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption1}" value="1" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption2}" value="2" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption3}" value="3" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption4}" value="4" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption5}" value="5" class="p-1"/></p>
 </th:block>
 <input type="button" class="btn btn-outline-primary" id="submit" value="제출하기"/>
 
@@ -26,25 +30,37 @@
             let qString ="";
 
             for(let q=1; q<=qSize; q++){
+                let seqIndex = q-1;
                 let qChecked = document.getElementsByName(q.toString());
-                for(let c of qChecked){
-                    if(c.checked==true) {
-                        let concatStr = "\""+q.toString()+"\":\""+c.value+"\"";
-                        qString = qString.concat(concatStr);
-                    }
-                }
+                let qSeq = qChecked[seqIndex].getAttribute('seq');
+                let falseCount = 0;
 
-                if(q!==qSize)
-                    qString = qString.concat(",");
-                else
-                    qString = "{"+qString+"}";
+                for(let c of qChecked){
+                    let concatStr = "";
+
+                    if(c.checked==false)
+                        falseCount++;
+
+                    if(falseCount==5){
+                        console.log(qSeq+" << 이 문항에는 답안을 선택하지 않았음.");
+                        concatStr = "\""+qSeq+"\":\"\",";
+                        falseCount=0;
+                    }
+
+                    if(c.checked==true)
+                        concatStr = "\""+q.toString()+"\":\""+c.value+"\",";
+
+                    qString = qString.concat(concatStr);
+                }
             }
+
+            qString = qString.substring(0, qString.lastIndexOf(","));
 
             $.ajax({
                 type: "POST"
                 , url: "/submitMCQ"
                 , data: {
-                    "mcqResult": qString
+                    "mcqResult": "{"+qString+"}"
                 }
                 , success: function (data){
                     alert("제출되었습니다.");
@@ -53,6 +69,26 @@
             });
         });
     });
+
+    let now = new Date();
+    let startDateNum = Date.parse(now)/1000;
+
+    let end = new Date([[${timer}]]);
+    let endDateNum = Date.parse(end)/1000;
+    let time = endDateNum-startDateNum;
+
+    let x = setInterval(function () {
+        let min = parseInt(time/60);
+        let sec = time%60;
+        document.getElementById("timer").innerHTML = "<span>남은 시간 : "+min+"분 "+sec+"초</span>";
+        time--;
+
+        if(min == 0 && sec == 0){
+            clearInterval(x);
+            alert("시험시간이 종료되었습니다. 입력한 답안만 제출됩니다.");
+        }
+    },1000);
+
 </script>
 </body>
 </html>
