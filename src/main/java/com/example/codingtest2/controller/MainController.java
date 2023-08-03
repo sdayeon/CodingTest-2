@@ -2,6 +2,7 @@ package com.example.codingtest2.controller;
 
 import com.example.codingtest2.dto.MCQResultDto;
 import com.example.codingtest2.dto.UserDto;
+import com.example.codingtest2.entity.User;
 import com.example.codingtest2.service.MCQService;
 import com.example.codingtest2.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -48,25 +49,23 @@ public class MainController {
             }
             default -> {
                 log.info("[Login Success] : {}", dto.getUserId());
-                dto.setUserSeq(resultSeq);
-
                 HttpSession session = request.getSession();
-                session.setAttribute("user", dto);
+                session.setAttribute("user", userService.findBySeq(resultSeq).get());
                 return "redirect:main";
             }
         }
     }
 
     @GetMapping(value = "/main")
-    public String main(Model model, @SessionAttribute("user") UserDto user) {
+    public String main(Model model, @SessionAttribute("user") User user) {
         userService.setLoginDt(user.getUserSeq());
         model.addAttribute("userId", user.getUserId());
-        model.addAttribute("question", mcqService.findAll());
+        model.addAttribute("question", mcqService.findByLevel(user.getUserLevel()));
         return "Main";
     }
 
     @PostMapping(value = "/submitMCQ")
-    public String submitMCQ(@ModelAttribute MCQResultDto dto, @SessionAttribute("user") UserDto user) {
+    public String submitMCQ(@ModelAttribute MCQResultDto dto, @SessionAttribute("user") User user) {
         dto.setUserSeq(user.getUserSeq());
         mcqService.insertResult(dto);
         return "Main";

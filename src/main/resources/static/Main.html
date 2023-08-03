@@ -9,8 +9,8 @@
 </head>
 <body class="p-3 w-50">
 <p>응시자 : <span th:text="${userId}"></span></p>
-<th:block th:each="q:${question}" class="p-1 m-3">
-    <span th:text="${q.mcqSeq}"></span>. <label th:text="${q.mcqQuestion}" class="mb-3"></label>
+<th:block th:each="q, qq:${question}" class="p-1 m-3">
+    <span th:text="${qq.count}"></span>. <label th:text="${q.mcqQuestion}" class="mb-3"></label>
     <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption1}" value="1" class="p-1"/></p>
     <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption2}" value="2" class="p-1"/></p>
     <p><input type="radio" th:name="${q.mcqSeq}" th:text="${q.mcqOption3}" value="3" class="p-1"/></p>

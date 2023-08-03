@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.example.codingtest2.entity.QUser.user;
+import static com.example.codingtest2.entity.QMCQuestion.mCQuestion;
 
 @Slf4j
 @Service
@@ -27,8 +28,10 @@ public class MCQService {
     private final MCQResultRepository mcqResultRepository;
     private final UserService userService;
 
-    public List<MCQuestion> findAll() {
-        return mcqRepository.findAll();
+    public List<MCQuestion> findByLevel(String level){
+        return queryFactory.selectFrom(mCQuestion)
+                .where(mCQuestion.mcqLevel.eq(level))
+                .fetch();
     }
 
     public void insertResult(MCQResultDto dto) {
