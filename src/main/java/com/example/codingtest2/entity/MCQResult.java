@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class MCQResult {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mcq_result_seq")
     private Integer mcqResultSeq;
 

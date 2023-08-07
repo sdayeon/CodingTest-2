@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class SQuestion {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sq_seq")
     private Integer sqSeq;
 

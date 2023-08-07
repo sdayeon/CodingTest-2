@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class SQResult {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sq_result_seq")
     private Integer sqResultSeq;
 

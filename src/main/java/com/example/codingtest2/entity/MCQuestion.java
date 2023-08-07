@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class MCQuestion {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mcq_seq")
     private Integer mcqSeq;
 
