@@ -51,6 +51,11 @@ public class MainController {
                 model.addAttribute("error", "시험 응시 기간이 아닙니다.");
                 return "Login";
             }
+            case -3 -> {
+                log.info("[Login Fail] Already submit : {}/{}", dto.getUserId(), dto.getUserPassword());
+                model.addAttribute("error", "이미 응시한 시헙입니다.");
+                return "Login";
+            }
             default -> {
                 log.info("[Login Success] : {}", dto.getUserId());
                 HttpSession session = request.getSession();

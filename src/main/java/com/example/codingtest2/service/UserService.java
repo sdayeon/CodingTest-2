@@ -36,6 +36,8 @@ public class UserService {
         if(!uu.getUserTestStart().isBefore(now)) return -2;
         if(!uu.getUserTestEnd().isAfter(now)) return -2;
 
+        if(uu.getUserSubmitDt()!=null) return -3;
+
         return uu.getUserSeq();
     }
 
