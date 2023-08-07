@@ -6,6 +6,7 @@ import com.example.codingtest2.entity.MCQuestion;
 import com.example.codingtest2.entity.User;
 import com.example.codingtest2.repository.MCQRepository;
 import com.example.codingtest2.repository.MCQResultRepository;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,8 @@ public class MCQService {
     public List<MCQuestion> findByLevel(String level){
         return queryFactory.selectFrom(mCQuestion)
                 .where(mCQuestion.mcqLevel.eq(level))
+                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
+                .limit(3)
                 .fetch();
     }
 
