@@ -12,7 +12,17 @@
     응시자 : <span th:text="${userInfo?.userId}"></span><br>
     레벨 : <span th:text="${userInfo?.userLevel}"></span><br>
     <p id="timer"></p>
-</div>
+</div><hr><br>
+
+<h5>주관식</h5>
+<th:block th:each="sq, sqq: ${sQuestion}" class="p-1 m-3">
+    <span th:text="${sqq.count}"></span>. <label th:text="${sq.sqQuestion}" class="mb-3"></label>
+    <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-75"/></p>
+</th:block>
+
+<br><hr><br>
+
+<h5>객관식</h5>
 <th:block th:each="q, qq:${question}" class="p-1 m-3">
     <span th:text="${qq.count}"></span>. <label th:text="${q.mcqQuestion}" class="mb-3"></label>
     <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption1}" value="1" class="p-1"/></p>
@@ -21,11 +31,16 @@
     <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption4}" value="4" class="p-1"/></p>
     <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption5}" value="5" class="p-1"/></p>
 </th:block>
+
+<br>
+
 <input type="button" class="btn btn-outline-primary" id="submit" value="제출하기"/>
 
 <script th:inline="javascript">
     $(document).ready(function () {
         $("#submit").click(function (){
+
+            //객관식 문제
             let qSize = [[${question}]].length;
             let qString ="";
 
@@ -46,13 +61,25 @@
                 qString = qString.concat(concatStr);
             }
 
+            //주관식 문제
+            let sqSize = [[${sQuestion}]].length;
+            let sqString = "";
+
+            for(let sq=1; sq<=sqSize; sq++){
+                let sqSeq = document.getElementById(sq.toString()).getAttribute('seq');
+                let sQuestion = document.getElementById(sq.toString()).value;
+                sqString = sqString.concat("\""+sqSeq+"\":\""+sQuestion+"\",");
+            }
+
             qString = qString.substring(0, qString.lastIndexOf(","));
+            sqString = sqString.substring(0, sqString.lastIndexOf(","));
 
             $.ajax({
                 type: "POST"
-                , url: "/submitMCQ"
+                , url: "/submitQuestion"
                 , data: {
                     "mcqResult": "{"+qString+"}"
+                    , "sqResult": "{"+sqString+"}"
                 }
                 , success: function (data){
                     alert("제출되었습니다.");

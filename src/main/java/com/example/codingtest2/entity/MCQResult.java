@@ -15,7 +15,7 @@ public class MCQResult {
 
     @Id
     @GeneratedValue
-    @Column(name = "mcq_reulst_seq")
+    @Column(name = "mcq_result_seq")
     private Integer mcqResultSeq;
 
     @Column(name = "mcq_result")

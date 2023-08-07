@@ -1,10 +1,11 @@
 package com.example.codingtest2.controller;
 
 import com.example.codingtest2.dto.MCQResultDto;
+import com.example.codingtest2.dto.SQResultDto;
 import com.example.codingtest2.dto.UserDto;
 import com.example.codingtest2.entity.User;
-import com.example.codingtest2.service.MCQResultService;
 import com.example.codingtest2.service.MCQService;
+import com.example.codingtest2.service.SQService;
 import com.example.codingtest2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +22,8 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class MainController {
     private final MCQService mcqService;
+    private final SQService sqService;
     private final UserService userService;
-    private final MCQResultService mcqResultService;
 
     @GetMapping(value = "/")
     public String login(HttpServletRequest request) {
@@ -65,14 +66,18 @@ public class MainController {
         model.addAttribute("userInfo", user);
         model.addAttribute("timer", user.getUserTestEnd().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
         model.addAttribute("question", mcqService.findByLevel(user.getUserLevel()));
+        model.addAttribute("sQuestion", sqService.findByLevel(user.getUserLevel()));
         return "Main";
     }
 
-    @PostMapping(value = "/submitMCQ")
-    public String submitMCQ(@ModelAttribute MCQResultDto dto, @SessionAttribute("user") User user) {
+    @PostMapping(value = "/submitQuestion")
+    public String submitQuestion(@SessionAttribute("user") User user, @ModelAttribute MCQResultDto dto, @ModelAttribute SQResultDto dto2) {
         dto.setUserSeq(user.getUserSeq());
-        dto.setMcqResultScore(mcqResultService.setResultScore(dto, user));
+        dto.setMcqResultScore(mcqService.setResultScore(dto, user));
         mcqService.insertResult(dto);
+
+        dto2.setUserSeq(user.getUserSeq());
+        sqService.insertResult(dto2);
         return "Main";
     }
 

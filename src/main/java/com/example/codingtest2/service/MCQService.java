@@ -4,7 +4,6 @@ import com.example.codingtest2.dto.MCQResultDto;
 import com.example.codingtest2.entity.MCQResult;
 import com.example.codingtest2.entity.MCQuestion;
 import com.example.codingtest2.entity.User;
-import com.example.codingtest2.repository.MCQRepository;
 import com.example.codingtest2.repository.MCQResultRepository;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.codingtest2.entity.QUser.user;
@@ -25,7 +25,6 @@ import static com.example.codingtest2.entity.QMCQuestion.mCQuestion;
 @RequiredArgsConstructor
 public class MCQService {
     private final JPAQueryFactory queryFactory;
-    private final MCQRepository mcqRepository;
     private final MCQResultRepository mcqResultRepository;
     private final UserService userService;
 
@@ -34,6 +33,12 @@ public class MCQService {
                 .where(mCQuestion.mcqLevel.eq(level))
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
                 .limit(3)
+                .fetch();
+    }
+
+    public List<MCQuestion> findByLevelAll(String level){
+        return queryFactory.selectFrom(mCQuestion)
+                .where(mCQuestion.mcqLevel.eq(level))
                 .fetch();
     }
 
@@ -50,5 +55,25 @@ public class MCQService {
                 .set(user.userSubmitDt, LocalDateTime.now())
                 .where(user.userSeq.eq(uu.getUserSeq()))
                 .execute();
+    }
+
+    public Integer setResultScore(MCQResultDto dto, User uu){
+        String level = uu.getUserLevel();
+        List<MCQuestion> qList = findByLevelAll(level);
+        List<String> result = new ArrayList<>();
+        int finalScore = 0;
+
+        for(MCQuestion mcq : qList){
+            String rString = "\""+mcq.getMcqSeq()+"\":\""+mcq.getMcqAnswer()+"\"";
+            result.add(rString);
+        }
+
+        for(String score : result) {
+            if(dto.getMcqResult().contains(score)){
+                finalScore++;
+            }
+        }
+
+        return finalScore;
     }
 }
