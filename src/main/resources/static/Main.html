@@ -30,28 +30,20 @@
             let qString ="";
 
             for(let q=1; q<=qSize; q++){
-                let seqIndex = q-1;
-                let qChecked = document.getElementsByName(q.toString());
-                let qSeq = qChecked[seqIndex].getAttribute('seq');
-                let falseCount = 0;
+                let question = document.getElementsByName(q.toString());
+                let concatStr = "";
 
-                for(let c of qChecked){
-                    let concatStr = "";
+                let n=0;
+                while(n<5){
+                    let checkSeq = question[n].getAttribute('seq');     //문제 번호
+                    let qValue = question[n].getAttribute('value');     //답안 번호
+                    let check = question[n].checked;                    //체크 여부
 
-                    if(c.checked==false)
-                        falseCount++;
-
-                    if(falseCount==5){
-                        console.log(qSeq+" << 이 문항에는 답안을 선택하지 않았음.");
-                        concatStr = "\""+qSeq+"\":\"\",";
-                        falseCount=0;
-                    }
-
-                    if(c.checked==true)
-                        concatStr = "\""+qSeq+"\":\""+c.value+"\",";
-
-                    qString = qString.concat(concatStr);
+                    if(check) concatStr = "\""+checkSeq+"\":\""+qValue+"\",";
+                    n++;
                 }
+
+                qString = qString.concat(concatStr);
             }
 
             qString = qString.substring(0, qString.lastIndexOf(","));
