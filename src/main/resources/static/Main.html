@@ -17,6 +17,9 @@
 <h5>주관식</h5>
 <th:block th:each="sq, sqq: ${sQuestion}" class="p-1 m-3">
     <span th:text="${sqq.count}"></span>. <label th:text="${sq.sqQuestion}" class="mb-3"></label>
+    <div th:if="${not #strings.isEmpty(sq.sqImg)}">
+        <img th:src="${sq.sqImg}" class="w-50 p-1"/>
+    </div>
     <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-75"/></p>
 </th:block>
 

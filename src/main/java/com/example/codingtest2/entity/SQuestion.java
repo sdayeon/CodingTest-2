@@ -25,4 +25,7 @@ public class SQuestion {
 
     @Column(name = "sq_level")
     private String sqLevel;
+
+    @Column(name = "sq_img")
+    private String sqImg;
 }

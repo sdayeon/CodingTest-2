@@ -8,4 +8,5 @@ public class SQDto {
     private String sqQuestion;
     private String sqAnswer;
     private String sqLevel;
+    private String sqImg;
 }
