@@ -1,10 +1,12 @@
 package com.example.codingtest2.controller;
 
 import com.example.codingtest2.dto.MCQResultDto;
+import com.example.codingtest2.dto.PQResultDto;
 import com.example.codingtest2.dto.SQResultDto;
 import com.example.codingtest2.dto.UserDto;
 import com.example.codingtest2.entity.User;
 import com.example.codingtest2.service.MCQService;
+import com.example.codingtest2.service.PQService;
 import com.example.codingtest2.service.SQService;
 import com.example.codingtest2.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 public class MainController {
     private final MCQService mcqService;
     private final SQService sqService;
+    private final PQService pqService;
     private final UserService userService;
 
     @GetMapping(value = "/")
@@ -72,6 +75,13 @@ public class MainController {
         model.addAttribute("timer", user.getUserTestEnd().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
         model.addAttribute("question", mcqService.findByLevel(user.getUserLevel()));
         model.addAttribute("sQuestion", sqService.findByLevel(user.getUserLevel()));
+        model.addAttribute("pQuestion", pqService.findByLevel(user.getUserLevel()));
+        return "Main";
+    }
+
+    @PostMapping(value = "/savePQ_{seq}")
+    public String savePQ(@PathVariable("seq") String seq, @ModelAttribute PQResultDto dto) {
+        log.info("[{}] {}. {}", seq, dto.getPqSeq(), dto.getPqResult());
         return "Main";
     }
 

@@ -1,6 +1,5 @@
 package com.example.codingtest2.dto;
 
-import com.example.codingtest2.entity.User;
 import lombok.Data;
 
 @Data
