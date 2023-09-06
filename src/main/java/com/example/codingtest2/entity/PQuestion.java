@@ -34,4 +34,8 @@ public class PQuestion {
 
     @Column(name = "pq_example")
     private String pgExample;
+
+    public PQuestion(Integer pqSeq){
+        this.pqSeq = pqSeq;
+    }
 }
