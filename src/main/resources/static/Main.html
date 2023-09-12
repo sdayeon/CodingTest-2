@@ -31,7 +31,7 @@
         <div th:if="${pqq.index == pqrr.index}">
             <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
             <p><textarea type="text" th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" class="p-1 w-75" th:text="${pqr.pqResult}"></textarea></p>
-            <input type="button" class="btn btn-outline-success" th:id="|savePQ_${pqq.count}|" value="임시저장"/><br><br>
+            <input type="button" class="btn btn-outline-success" th:id="|savePQ_${pqq.count}|" value="답안 등록"/><br><br>
         </div>
     </th:block>
 </th:block>
@@ -106,6 +106,10 @@
 
         //프로그래밍 문제
         $("#savePQ_1").click(function () {
+            savePQToggle(1);
+            if($(this).val() == "답안 등록")
+                return;
+
             let pqSeq = document.getElementById("pq_1").getAttribute('seq');
             let pqResult = document.getElementById("pq_1").value;
 
@@ -123,6 +127,10 @@
         });
 
         $("#savePQ_2").click(function () {
+            savePQToggle(2);
+            if($(this).val() == "답안 등록")
+                return;
+
             let pqSeq = document.getElementById("pq_2").getAttribute('seq');
             let pqResult = document.getElementById("pq_2").value;
 
@@ -138,6 +146,23 @@
                 }
             });
         });
+
+        function savePQToggle(num){
+            let question = $("#pq_"+num);
+            let saveBtn = $("#savePQ_"+num);
+
+            if(saveBtn.hasClass("btn-outline-success")){
+                saveBtn.removeClass("btn-outline-success");
+                saveBtn.addClass("btn-success");
+                question.attr("disabled", true);
+                saveBtn.val("답안 수정");
+            } else {
+                saveBtn.removeClass("btn-success");
+                saveBtn.addClass("btn-outline-success");
+                question.attr("disabled", false);
+                saveBtn.val("답안 등록");
+            }
+        }
 
     });
 
