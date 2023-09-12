@@ -4,6 +4,8 @@ import com.example.codingtest2.dto.MCQResultDto;
 import com.example.codingtest2.dto.PQResultDto;
 import com.example.codingtest2.dto.SQResultDto;
 import com.example.codingtest2.dto.UserDto;
+import com.example.codingtest2.entity.PQResult;
+import com.example.codingtest2.entity.PQuestion;
 import com.example.codingtest2.entity.User;
 import com.example.codingtest2.service.MCQService;
 import com.example.codingtest2.service.PQService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -62,8 +65,24 @@ public class MainController {
             }
             default -> {
                 log.info("[Login Success] : {}", dto.getUserId());
+                User user = userService.findBySeq(resultSeq).get();
                 HttpSession session = request.getSession();
-                session.setAttribute("user", userService.findBySeq(resultSeq).get());
+                session.setAttribute("user", user);
+
+                //로그인 성공 시, 임시 저장을 위해 PQResult 에 데이터(빈 값) 넣어두기
+                List<PQuestion> getPQuestion = pqService.findByLevel(user.getUserLevel());
+                List<PQResult> getPQResult = pqService.findSavedResult(user);
+
+                if (getPQResult.isEmpty()) {
+                    PQResultDto pqResultDto = new PQResultDto();
+                    for (PQuestion p : getPQuestion) {
+                        pqResultDto.setUserSeq(user.getUserSeq());
+                        pqResultDto.setPqSeq(p.getPqSeq());
+                        pqResultDto.setPqResult("");
+                        pqService.saveResult(pqResultDto);
+                    }
+                }
+
                 return "redirect:main";
             }
         }
