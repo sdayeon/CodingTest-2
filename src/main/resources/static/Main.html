@@ -27,9 +27,18 @@
 
 <h5>프로그래밍</h5>
 <th:block th:each="pq, pqq: ${pQuestion}" class="p-1 m-3">
-    <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
-    <p><input type="text" th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" class="p-1 w-75"/></p>
-    <input type="button" class="btn btn-outline-success" th:id="|savePQ_${pqq.count}|" value="임시저장"/><br><br>
+    <th:block th:each="pqr: ${pQResult}">
+        <div th:if="${pq.pqSeq == pqr.pQuestion.pqSeq}">
+            <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
+            <p><textarea type="text" th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" class="p-1 w-75" th:text="${pqr.pqResult}"></textarea></p>
+            <input type="button" class="btn btn-outline-success" th:id="|savePQ_${pqq.count}|" value="임시저장"/><br><br>
+        </div>
+        <div th:unless="${pq.pqSeq == pqr.pQuestion.pqSeq}">
+            <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
+            <p><textarea type="text" th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" class="p-1 w-75"></textarea></p>
+            <input type="button" class="btn btn-outline-success" th:id="|savePQ_${pqq.count}|" value="임시저장"/><br><br>
+        </div>
+    </th:block>
 </th:block>
 
 <br><hr><br>

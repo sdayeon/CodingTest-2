@@ -68,4 +68,11 @@ public class PQService {
             return pqSeq;
         }
     }
+
+    public List<PQResult> findSavedResult(User uu){
+        return queryFactory
+                .selectFrom(pQResult)
+                .where(pQResult.user.eq(uu))
+                .fetch();
+    }
 }

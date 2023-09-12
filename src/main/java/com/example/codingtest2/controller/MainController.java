@@ -34,11 +34,12 @@ public class MainController {
         session.invalidate();
         return "Login";
     }
+
     @PostMapping(value = "/login")
     public String loginCheck(@ModelAttribute UserDto dto, Model model, HttpServletRequest request) {
         Integer resultSeq = userService.loginCheck(dto);
 
-        switch (resultSeq){
+        switch (resultSeq) {
             case 0 -> {
                 log.info("[Login Fail] Not found : {}/{}", dto.getUserId(), dto.getUserPassword());
                 model.addAttribute("error", "사용자 계정이 없습니다.");
@@ -76,11 +77,12 @@ public class MainController {
         model.addAttribute("question", mcqService.findByLevel(user.getUserLevel()));
         model.addAttribute("sQuestion", sqService.findByLevel(user.getUserLevel()));
         model.addAttribute("pQuestion", pqService.findByLevel(user.getUserLevel()));
+        model.addAttribute("pQResult", pqService.findSavedResult(user));
         return "Main";
     }
 
     @PostMapping(value = "/savePQ_{seq}")
-    public String savePQ(@PathVariable("seq") String seq, @SessionAttribute("user") User user,@ModelAttribute PQResultDto dto) {
+    public String savePQ(@PathVariable("seq") String seq, @SessionAttribute("user") User user, @ModelAttribute PQResultDto dto) {
         log.info("[{}] {}. {}", seq, dto.getPqSeq(), dto.getPqResult());
 
         dto.setUserSeq(user.getUserSeq());
