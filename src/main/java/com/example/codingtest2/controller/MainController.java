@@ -110,13 +110,27 @@ public class MainController {
     }
 
     @PostMapping(value = "/submitQuestion")
-    public String submitQuestion(@SessionAttribute("user") User user, @ModelAttribute MCQResultDto dto, @ModelAttribute SQResultDto dto2) {
+    public String submitQuestion(@SessionAttribute("user") User user
+            , @ModelAttribute MCQResultDto dto
+            , @ModelAttribute SQResultDto dto2
+            , @ModelAttribute PQResultDto dto3) {
         dto.setUserSeq(user.getUserSeq());
         dto.setMcqResultScore(mcqService.setResultScore(dto, user));
         mcqService.insertResult(dto);
 
         dto2.setUserSeq(user.getUserSeq());
         sqService.insertResult(dto2);
+
+        PQResultDto pqrDto = new PQResultDto();
+        String[] pqIndex = dto3.getPqResult().split(",,");
+        for(int i=0; i<pqIndex.length; i++){
+            int index = pqIndex[i].indexOf(":");
+            pqrDto.setUserSeq(user.getUserSeq());
+            pqrDto.setPqSeq(Integer.valueOf(pqIndex[i].substring(0, index)));
+            pqrDto.setPqResult(pqIndex[i].substring(index+1, pqIndex[i].length()));
+            pqService.saveResult(pqrDto);
+        }
+
         return "Main";
     }
 

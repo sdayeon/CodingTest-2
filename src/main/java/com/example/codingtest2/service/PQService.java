@@ -61,10 +61,8 @@ public class PQService {
                 .fetch();
 
         if(result.isEmpty()){
-            log.info("INSERT PQ RESULT");
             return 0;
         } else {
-            log.info("UPDATE PQ RESULT : {}", pqSeq);
             return pqSeq;
         }
     }

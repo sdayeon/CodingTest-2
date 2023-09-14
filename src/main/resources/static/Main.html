@@ -28,7 +28,7 @@
 <h5>프로그래밍</h5>
 <th:block th:each="pq, pqq: ${pQuestion}" class="p-1 m-3">
     <th:block th:each="pqr, pqrr: ${pQResult}">
-        <div th:if="${pqq.index == pqrr.index}">
+        <div th:if="${pq.pqSeq == pqr.pQuestion.pqSeq}">
             <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
             <p><textarea type="text" th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" class="p-1 w-75" th:text="${pqr.pqResult}"></textarea></p>
             <input type="button" class="btn btn-outline-success" th:id="|savePQ_${pqq.count}|" value="답안 등록"/><br><br>
@@ -54,8 +54,7 @@
 
 <script th:inline="javascript">
     $(document).ready(function () {
-        $("#submit").click(function (){
-
+        function submitAction(status){
             //객관식 문제
             let qSize = [[${question}]].length;
             let qString ="";
@@ -87,8 +86,22 @@
                 sqString = sqString.concat("\""+sqSeq+"\":\""+sQuestion+"\",");
             }
 
+
+            //프로그래밍 문제
+            let pqSize = [[${pQuestion}]].length;
+            let pqString = "";
+
+            for(let pq=1; pq<=pqSize; pq++){
+                let pqSeqStr = "pq_"+pq;
+                let pqSeq = document.getElementById(pqSeqStr).getAttribute('seq');
+                let pqResult = document.getElementById(pqSeqStr).value;
+                pqString = pqString.concat(pqSeq+":"+pqResult+",,");
+            }
+
+
             qString = qString.substring(0, qString.lastIndexOf(","));
             sqString = sqString.substring(0, sqString.lastIndexOf(","));
+            pqString = pqString.substring(0, pqString.lastIndexOf(",,"));
 
             $.ajax({
                 type: "POST"
@@ -96,12 +109,19 @@
                 , data: {
                     "mcqResult": "{"+qString+"}"
                     , "sqResult": "{"+sqString+"}"
+                    , "pqResult": pqString+""
                 }
                 , success: function (data){
-                    alert("제출되었습니다.");
+                    if(status==0) alert("시험시간이 종료되었습니다. 입력한 답안만 제출됩니다.");
+                    else alert("제출되었습니다.");
+
                     window.location.href="/finish";
                 }
             });
+        }
+
+        $("#submit").click(function (){
+            submitAction(1);
         });
 
         //프로그래밍 문제
@@ -164,27 +184,25 @@
             }
         }
 
+        let now = new Date();
+        let startDateNum = Date.parse(now)/1000;
+
+        let end = new Date([[${timer}]]);
+        let endDateNum = Date.parse(end)/1000;
+        let time = endDateNum-startDateNum;
+
+        let x = setInterval(function () {
+            let min = parseInt(time/60);
+            let sec = time%60;
+            document.getElementById("timer").innerHTML = "<span>남은 시간 : "+min+"분 "+sec+"초</span>";
+            time--;
+
+            if(min == 0 && sec == 0){
+                clearInterval(x);
+                submitAction(0);
+            }
+        },1000);
     });
-
-    let now = new Date();
-    let startDateNum = Date.parse(now)/1000;
-
-    let end = new Date([[${timer}]]);
-    let endDateNum = Date.parse(end)/1000;
-    let time = endDateNum-startDateNum;
-
-    let x = setInterval(function () {
-        let min = parseInt(time/60);
-        let sec = time%60;
-        document.getElementById("timer").innerHTML = "<span>남은 시간 : "+min+"분 "+sec+"초</span>";
-        time--;
-
-        if(min == 0 && sec == 0){
-            clearInterval(x);
-            alert("시험시간이 종료되었습니다. 입력한 답안만 제출됩니다.");
-        }
-    },1000);
-
 </script>
 </body>
 </html>
