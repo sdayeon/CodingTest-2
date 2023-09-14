@@ -9,14 +9,16 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.example.codingtest2.entity.QUser.user;
 import static com.example.codingtest2.entity.QSQuestion.sQuestion;
+import static com.example.codingtest2.entity.QUser.user;
+
 @Slf4j
 @Service
 @Transactional
@@ -26,11 +28,14 @@ public class SQService {
     private final UserService userService;
     private final SQResultRepository sqResultRepository;
 
-    public List<SQuestion> findByLevel(String level){
+    @Value("${subject_question_count}")
+    int count;
+
+    public List<SQuestion> findByLevel(String level) {
         return queryFactory.selectFrom(sQuestion)
                 .where(sQuestion.sqLevel.eq(level))
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .limit(2)
+                .limit(count)
                 .fetch();
     }
 

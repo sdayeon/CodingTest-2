@@ -9,14 +9,16 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static com.example.codingtest2.entity.QPQuestion.pQuestion;
 import static com.example.codingtest2.entity.QPQResult.pQResult;
+import static com.example.codingtest2.entity.QPQuestion.pQuestion;
 import static com.example.codingtest2.entity.QUser.user;
+
 @Slf4j
 @Service
 @Transactional
@@ -26,11 +28,14 @@ public class PQService {
     private final PQResultRepository pqResultRepository;
     private final UserService userService;
 
-    public List<PQuestion> findByLevel(String level){
+    @Value("${programming_question_count}")
+    int count;
+
+    public List<PQuestion> findByLevel(String level) {
         return queryFactory.selectFrom(pQuestion)
                 .where(pQuestion.pqLevel.eq(level))
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .limit(2)
+                .limit(count)
                 .fetch();
     }
 
@@ -38,7 +43,7 @@ public class PQService {
         User uu = userService.findBySeq(dto.getUserSeq()).get();
         int resultSeq = findPQResult(uu, dto.getPqSeq());
 
-        if(resultSeq == 0){
+        if (resultSeq == 0) {
             pqResultRepository.save(
                     PQResult.builder()
                             .pQuestion(new PQuestion(dto.getPqSeq()))
@@ -54,20 +59,20 @@ public class PQService {
         }
     }
 
-    private int findPQResult(User uu, int pqSeq){
+    private int findPQResult(User uu, int pqSeq) {
         List<PQResult> result = queryFactory
                 .selectFrom(pQResult)
                 .where(pQResult.user.eq(uu), pQResult.pQuestion.pqSeq.eq(pqSeq))
                 .fetch();
 
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             return 0;
         } else {
             return pqSeq;
         }
     }
 
-    public List<PQResult> findSavedResult(User uu){
+    public List<PQResult> findSavedResult(User uu) {
         return queryFactory
                 .selectFrom(pQResult)
                 .where(pQResult.user.eq(uu))

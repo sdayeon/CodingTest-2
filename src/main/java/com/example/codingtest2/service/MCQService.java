@@ -9,6 +9,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,8 +17,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.codingtest2.entity.QUser.user;
 import static com.example.codingtest2.entity.QMCQuestion.mCQuestion;
+import static com.example.codingtest2.entity.QUser.user;
 
 @Slf4j
 @Service
@@ -28,15 +29,18 @@ public class MCQService {
     private final MCQResultRepository mcqResultRepository;
     private final UserService userService;
 
-    public List<MCQuestion> findByLevel(String level){
+    @Value("${multiple_question_count}")
+    int count;
+
+    public List<MCQuestion> findByLevel(String level) {
         return queryFactory.selectFrom(mCQuestion)
                 .where(mCQuestion.mcqLevel.eq(level))
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .limit(3)
+                .limit(count)
                 .fetch();
     }
 
-    public List<MCQuestion> findByLevelAll(String level){
+    public List<MCQuestion> findByLevelAll(String level) {
         return queryFactory.selectFrom(mCQuestion)
                 .where(mCQuestion.mcqLevel.eq(level))
                 .fetch();
@@ -57,19 +61,19 @@ public class MCQService {
                 .execute();
     }
 
-    public Integer setResultScore(MCQResultDto dto, User uu){
+    public Integer setResultScore(MCQResultDto dto, User uu) {
         String level = uu.getUserLevel();
         List<MCQuestion> qList = findByLevelAll(level);
         List<String> result = new ArrayList<>();
         int finalScore = 0;
 
-        for(MCQuestion mcq : qList){
-            String rString = "\""+mcq.getMcqSeq()+"\":\""+mcq.getMcqAnswer()+"\"";
+        for (MCQuestion mcq : qList) {
+            String rString = "\"" + mcq.getMcqSeq() + "\":\"" + mcq.getMcqAnswer() + "\"";
             result.add(rString);
         }
 
-        for(String score : result) {
-            if(dto.getMcqResult().contains(score)){
+        for (String score : result) {
+            if (dto.getMcqResult().contains(score)) {
                 finalScore++;
             }
         }

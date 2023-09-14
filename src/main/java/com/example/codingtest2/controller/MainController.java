@@ -75,7 +75,7 @@ public class MainController {
     }
 
     @GetMapping(value = "/test")
-    public String onNotice(@SessionAttribute("user") User user){
+    public String onNotice(@SessionAttribute("user") User user) {
 
         //로그인 성공 시, 임시 저장을 위해 PQResult 에 데이터(빈 값) 넣어두기
         List<PQuestion> getPQuestion = pqService.findByLevel(user.getUserLevel());
@@ -129,11 +129,11 @@ public class MainController {
 
         PQResultDto pqrDto = new PQResultDto();
         String[] pqIndex = dto3.getPqResult().split(",,");
-        for(int i=0; i<pqIndex.length; i++){
+        for (int i = 0; i < pqIndex.length; i++) {
             int index = pqIndex[i].indexOf(":");
             pqrDto.setUserSeq(user.getUserSeq());
             pqrDto.setPqSeq(Integer.valueOf(pqIndex[i].substring(0, index)));
-            pqrDto.setPqResult(pqIndex[i].substring(index+1, pqIndex[i].length()));
+            pqrDto.setPqResult(pqIndex[i].substring(index + 1, pqIndex[i].length()));
             pqService.saveResult(pqrDto);
         }
 
