@@ -69,23 +69,29 @@ public class MainController {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
 
-                //로그인 성공 시, 임시 저장을 위해 PQResult 에 데이터(빈 값) 넣어두기
-                List<PQuestion> getPQuestion = pqService.findByLevel(user.getUserLevel());
-                List<PQResult> getPQResult = pqService.findSavedResult(user);
-
-                if (getPQResult.isEmpty()) {
-                    PQResultDto pqResultDto = new PQResultDto();
-                    for (PQuestion p : getPQuestion) {
-                        pqResultDto.setUserSeq(user.getUserSeq());
-                        pqResultDto.setPqSeq(p.getPqSeq());
-                        pqResultDto.setPqResult("");
-                        pqService.saveResult(pqResultDto);
-                    }
-                }
-
-                return "redirect:main";
+                return "Notice";
             }
         }
+    }
+
+    @GetMapping(value = "/test")
+    public String onNotice(@SessionAttribute("user") User user){
+
+        //로그인 성공 시, 임시 저장을 위해 PQResult 에 데이터(빈 값) 넣어두기
+        List<PQuestion> getPQuestion = pqService.findByLevel(user.getUserLevel());
+        List<PQResult> getPQResult = pqService.findSavedResult(user);
+
+        if (getPQResult.isEmpty()) {
+            PQResultDto pqResultDto = new PQResultDto();
+            for (PQuestion p : getPQuestion) {
+                pqResultDto.setUserSeq(user.getUserSeq());
+                pqResultDto.setPqSeq(p.getPqSeq());
+                pqResultDto.setPqResult("");
+                pqService.saveResult(pqResultDto);
+            }
+        }
+
+        return "redirect:main";
     }
 
     @GetMapping(value = "/main")
