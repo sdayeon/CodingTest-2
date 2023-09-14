@@ -30,7 +30,10 @@
     <th:block th:each="pqr, pqrr: ${pQResult}">
         <div th:if="${pq.pqSeq == pqr.pQuestion.pqSeq}">
             <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
-            <p><textarea type="text" th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" class="p-1 w-75" th:text="${pqr.pqResult}"></textarea></p>
+            <p><textarea type="text" class="p-1 w-100" rows="10"
+                         onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
+                         th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" th:text="${pqr.pqResult}">
+            </textarea></p>
             <input type="button" class="btn btn-outline-success" th:id="|savePQ_${pqq.count}|" value="답안 등록"/><br><br>
         </div>
     </th:block>
@@ -41,11 +44,11 @@
 <h5>객관식</h5>
 <th:block th:each="q, qq:${question}" class="p-1 m-3">
     <span th:text="${qq.count}"></span>. <label th:text="${q.mcqQuestion}" class="mb-3"></label>
-    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption1}" value="1" class="p-1"/></p>
-    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption2}" value="2" class="p-1"/></p>
-    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption3}" value="3" class="p-1"/></p>
-    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption4}" value="4" class="p-1"/></p>
-    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="${q.mcqOption5}" value="5" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="| &#9312; ${q.mcqOption1}|" value="1" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="| &#9313; ${q.mcqOption2}|" value="2" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="| &#9314; ${q.mcqOption3}|" value="3" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="| &#9315; ${q.mcqOption4}|" value="4" class="p-1"/></p>
+    <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="| &#9316; ${q.mcqOption5}|" value="5" class="p-1"/></p>
 </th:block>
 
 <br>
