@@ -22,7 +22,7 @@
             <div th:if="${not #strings.isEmpty(sq.sqImg)}">
                 <img th:src="${sq.sqImg}" class="w-50 p-1"/>
             </div>
-            <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-75"/></p>
+            <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-75 mb-4"/></p>
         </th:block>
 
         <br>
@@ -38,7 +38,7 @@
                                  onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
                                  th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" th:text="${pqr.pqResult}">
             </textarea></p>
-                    <input type="button" class="btn btn-outline-success" th:id="|savePQ_${pqq.count}|"
+                    <input type="button" class="btn btn-outline-success float-right" th:id="|savePQ_${pqq.count}|"
                            value="답안 등록"/><br><br>
                 </div>
             </th:block>
