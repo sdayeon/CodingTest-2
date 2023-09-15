@@ -7,9 +7,11 @@ public class UserDto {
     private Integer userSeq;
     private String userId;
     private String userPassword;
+    private String userName;
+    private String userMajor;
+    private String userLevel;
     private String userLoginDt;
     private String userSubmitDt;
     private String userTestStart;
     private String userTestEnd;
-    private String userLevel;
 }

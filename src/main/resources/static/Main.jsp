@@ -10,9 +10,13 @@
 </head>
 <body>
 <div class="card div-main">
+    <div class="div-userInfo">
+        <h3>2023 코딩역량테스트</h3>
+        <span><b>응시자 : </b><span th:text="${userInfo?.userName}"></span></span>
+        <span class="mx-3"><b>학과 : </b><span th:text="${userInfo?.userMajor}"></span></span>
+    </div>
     <div class="text-right">
-        <label id="timer"></label><br>
-        <span>응시자 : <span th:text="${userInfo?.userId}"></span></span>
+        <label id="timer"></label>
     </div>
     <hr>
     <div class="card-body">

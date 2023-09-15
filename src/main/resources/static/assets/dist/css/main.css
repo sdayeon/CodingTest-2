@@ -11,6 +11,11 @@ body {
   margin: 50px auto;
 }
 
+.div-userInfo {
+  text-align: left;
+  padding: 20px;
+}
+
 .div-main {
   width: 100%;
   padding: 15px;

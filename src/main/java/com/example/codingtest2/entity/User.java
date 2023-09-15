@@ -24,6 +24,15 @@ public class User {
     @Column(name = "user_password")
     private String userPassword;
 
+    @Column(name = "user_name")
+    private String userName;
+
+    @Column(name = "user_major")
+    private String userMajor;
+
+    @Column(name = "user_level")
+    private String userLevel;
+
     @Column(name = "user_login_dt")
     private LocalDateTime userLoginDt;
 
@@ -35,7 +44,4 @@ public class User {
 
     @Column(name = "user_test_end")
     private LocalDateTime userTestEnd;
-
-    @Column(name = "user_level")
-    private String userLevel;
 }
