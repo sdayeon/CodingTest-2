@@ -31,6 +31,9 @@ public class UserService {
         User uu = queryFactory.selectFrom(user).where(user.userId.eq(dto.getUserId())).fetchOne();
 
         if(uu==null) return 0;
+
+        if("admin".equals(uu.getUserId())) return -4;
+
         if(!uu.getUserPassword().equals(dto.getUserPassword())) return -1;
 
         if(!uu.getUserTestStart().isBefore(now)) return -2;

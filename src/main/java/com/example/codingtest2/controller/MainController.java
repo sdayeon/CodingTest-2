@@ -7,10 +7,7 @@ import com.example.codingtest2.dto.UserDto;
 import com.example.codingtest2.entity.PQResult;
 import com.example.codingtest2.entity.PQuestion;
 import com.example.codingtest2.entity.User;
-import com.example.codingtest2.service.MCQService;
-import com.example.codingtest2.service.PQService;
-import com.example.codingtest2.service.SQService;
-import com.example.codingtest2.service.UserService;
+import com.example.codingtest2.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -30,6 +27,7 @@ public class MainController {
     private final SQService sqService;
     private final PQService pqService;
     private final UserService userService;
+    private final ScoreService scoreService;
 
     @GetMapping(value = "/")
     public String login(HttpServletRequest request) {
@@ -63,6 +61,11 @@ public class MainController {
                 model.addAttribute("error", "이미 응시한 시헙입니다.");
                 return "Login";
             }
+            case -4 -> {
+                log.info("[Login Success - ADMIN] : {}/{}", dto.getUserId(), dto.getUserPassword());
+                model.addAttribute("admin", "admin");
+                return "Login";
+            }
             default -> {
                 log.info("[Login Success] : {}", dto.getUserId());
                 User user = userService.findBySeq(resultSeq).get();
@@ -72,6 +75,17 @@ public class MainController {
                 return "Notice";
             }
         }
+    }
+
+    @GetMapping(value = "/score")
+    public String score(Model model){
+        List<User> test = scoreService.findUserAll();
+        for(User u : test){
+            log.info("ddyy: {} ", u.getUserId());
+        }
+
+        model.addAttribute("majorList", test);
+        return "Score";
     }
 
     @GetMapping(value = "/test")
