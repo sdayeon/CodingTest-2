@@ -41,7 +41,7 @@
                     <p><textarea type="text" class="p-1 w-100" rows="10"
                                  onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
                                  th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" th:text="${pqr.pqResult}">
-            </textarea></p>
+                    </textarea></p>
                     <input type="button" class="btn btn-outline-success float-right" th:id="|savePQ_${pqq.count}|"
                            value="답안 등록"/><br><br>
                 </div>

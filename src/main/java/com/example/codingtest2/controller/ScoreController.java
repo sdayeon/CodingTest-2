@@ -32,7 +32,7 @@ public class ScoreController {
         User user = userService.findByUserId(id);
         scoreService.insertUserScore(user);
 
-        model.addAttribute("userSeq", user.getUserSeq());
+        model.addAttribute("user", user);
         model.addAttribute("score", scoreService.findUserScore(user));
         model.addAttribute("pQResult", scoreService.getPQResult(user));
         model.addAttribute("sQResult", scoreService.getSQResult(user));

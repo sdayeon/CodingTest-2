@@ -14,7 +14,9 @@
 <div class="card div-score">
     <div class="div-userInfo">
         <h3>2023 코딩역량테스트 채점페이지</h3>
-        <span><b>학번 : </b><span id="userSeq" th:text="${userSeq}"></span></span>
+        <span><b>학과 : </b><span th:text="${user.userMajor}"></span></span>
+        <span class="mx-3"><b>학번 : </b><span th:text="${user.userId}"></span></span>
+        <span class="mx-3"><b>이름 : </b><span th:text="${user.userName}"></span></span>
         <input type="hidden" id="scoreSeq" th:value="${score.scoreSeq}"/>
     </div>
     <div class="card-body">
@@ -53,7 +55,11 @@
                     </tr>
                     <tr>
                         <td class="col-1 font-weight-bold">학생 답안</td>
-                        <td th:text="${pqr.value}"></td>
+                        <td><textarea type="text" class="p-1 w-100" rows="10" th:text="${pqr.value}" readonly
+                                      onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
+                                      >
+                            </textarea></td>
+                        <td ></td>
                     </tr>
                 </th:block>
             </table>
