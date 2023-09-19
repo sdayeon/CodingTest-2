@@ -32,10 +32,13 @@ public class ScoreController {
     public String scoreDetail(@PathVariable(value = "id") String id, Model model){
         model.addAttribute("id", id);
         User user = userService.findByUserId(id);
+        scoreService.insertUserScore(user);
 
+        model.addAttribute("score", scoreService.findUserScore(user));
         model.addAttribute("pQResult", scoreService.getPQResult(user));
         model.addAttribute("sQResult", scoreService.getSQResult(user));
         model.addAttribute("mcQResult", scoreService.getMCQResult(user));
+        model.addAttribute("mcQResultCount", scoreService.getMCQResultCount(user));
 
         return "ScoreDetail";
     }

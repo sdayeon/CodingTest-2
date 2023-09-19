@@ -1,7 +1,9 @@
 package com.example.codingtest2.service;
 
+import com.example.codingtest2.dto.ScoreDto;
 import com.example.codingtest2.dto.UserDto;
 import com.example.codingtest2.entity.*;
+import com.example.codingtest2.repository.ScoreRepository;
 import com.google.gson.Gson;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import static com.example.codingtest2.entity.QSQuestion.sQuestion;
 import static com.example.codingtest2.entity.QMCQuestion.mCQuestion;
 import static com.example.codingtest2.entity.QMCQResult.mCQResult;
 import static com.example.codingtest2.entity.QUser.user;
+import static com.example.codingtest2.entity.QScore.score;
 
 @Slf4j
 @Service
@@ -29,10 +32,8 @@ import static com.example.codingtest2.entity.QUser.user;
 @RequiredArgsConstructor
 public class ScoreService {
     private final JPAQueryFactory queryFactory;
+    private final ScoreRepository scoreRepository;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    @Value("${subject_question_count}")
-    int sq_count;
 
     public List<UserDto> findUserDtoAll(){
         List<UserDto> dtoList = new ArrayList<>();
@@ -58,6 +59,21 @@ public class ScoreService {
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    public Score findUserScore(User user){
+        return queryFactory
+                .selectFrom(score)
+                .where(score.user.eq(user))
+                .fetchOne();
+    }
+
+    public void insertUserScore(User user){
+        Score s = Score.builder()
+                .user(user)
+                .build();
+
+        scoreRepository.save(s);
     }
 
     public Map<String, Object> getPQResult(User user) {
@@ -117,5 +133,10 @@ public class ScoreService {
         return queryFactory.selectFrom(mCQuestion)
                 .where(mCQuestion.mcqSeq.eq(mcqSeq))
                 .fetchOne();
+    }
+
+    public int getMCQResultCount(User user){
+        MCQResult result = queryFactory.selectFrom(mCQResult).where(mCQResult.user.eq(user)).fetchOne();
+        return result.getMcqResultScore();
     }
 }

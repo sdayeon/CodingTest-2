@@ -16,23 +16,23 @@
         <h3>2023 코딩역량테스트 채점페이지</h3>
         <span><b>학번 : </b><span th:text="${id}"></span></span>
     </div>
-    <hr>
     <div class="card-body">
+        <hr>
         <div class="mb-5">
-            <h5>객관식 채점 결과</h5>
+            <h5>주관식 문제 답안</h5>
             <div class="float-right my-2">
-                <span>객관식 점수 : </span>
-                <input type="text" disabled value="100"/>
+                <input type="number" id="scoreSq" placeholder="주관식 점수 부여" th:value="${score.scoreSq}"/>
+                <input type="button" id="scoreSqBtn" value="점수 등록"/>
             </div>
             <table class="table table-bordered">
-                <th:block th:each="mcqr : ${mcQResult}">
+                <th:block th:each="sqr : ${sQResult}">
                     <tr>
                         <td class="col-1 font-weight-bold">문제</td>
-                        <td th:text="${mcqr.key}"></td>
+                        <td th:text="${sqr.key}"></td>
                     </tr>
                     <tr>
                         <td class="col-1 font-weight-bold">학생 답안</td>
-                        <td th:text="${mcqr.value}"></td>
+                        <td th:text="${sqr.value}"></td>
                     </tr>
                 </th:block>
             </table>
@@ -41,7 +41,7 @@
         <div class="mb-5">
             <h5>프로그래밍 문제 답안</h5>
             <div class="float-right my-2">
-                <input type="number" id="scorePq" placeholder="프로그래밍 점수 부여"/>
+                <input type="number" id="scorePq" placeholder="프로그래밍 점수 부여" th:value="${score.scorePq}"/>
                 <input type="button" id="scorePqBtn" value="점수 등록"/>
             </div>
             <table class="table table-bordered">
@@ -59,20 +59,21 @@
         </div>
         <hr>
         <div class="mb-5">
-            <h5>주관식 문제 답안</h5>
-            <div class="float-right my-2">
-                <input type="number" id="scoreSq" placeholder="주관식 점수 부여"/>
-                <input type="button" id="scoreSqBtn" value="점수 등록"/>
+            <h5>객관식 문제 답안</h5>
+            <div class="float-right my-2 text-right">
+                <input type="number" id="scoreMcq" placeholder="객관식 점수 부여" th:value="${score.scoreMcq}"/>
+                <input type="button" id="scoreMcqBtn" value="점수 등록" class="my-1"/><br>
+                <span>객관식 정답 개수 : <span th:text="${mcQResultCount}"></span></span>
             </div>
             <table class="table table-bordered">
-                <th:block th:each="sqr : ${sQResult}">
+                <th:block th:each="mcqr : ${mcQResult}">
                     <tr>
                         <td class="col-1 font-weight-bold">문제</td>
-                        <td th:text="${sqr.key}"></td>
+                        <td th:text="${mcqr.key}"></td>
                     </tr>
                     <tr>
                         <td class="col-1 font-weight-bold">학생 답안</td>
-                        <td th:text="${sqr.value}"></td>
+                        <td th:text="${mcqr.value}"></td>
                     </tr>
                 </th:block>
             </table>
