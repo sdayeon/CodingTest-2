@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -22,18 +21,18 @@ public class ScoreController {
     private final ScoreService scoreService;
 
     @GetMapping(value = "/score")
-    public String score(Model model){
+    public String score(Model model) {
         List<UserDto> scoreList = scoreService.findUserDtoAll();
         model.addAttribute("scoreList", scoreList);
         return "Score";
     }
 
     @GetMapping(value = "/score/{id}")
-    public String scoreDetail(@PathVariable(value = "id") String id, Model model){
-        model.addAttribute("id", id);
+    public String scoreDetail(@PathVariable(value = "id") String id, Model model) {
         User user = userService.findByUserId(id);
         scoreService.insertUserScore(user);
 
+        model.addAttribute("userSeq", user.getUserSeq());
         model.addAttribute("score", scoreService.findUserScore(user));
         model.addAttribute("pQResult", scoreService.getPQResult(user));
         model.addAttribute("sQResult", scoreService.getSQResult(user));
@@ -45,15 +44,30 @@ public class ScoreController {
 
     @ResponseBody
     @PostMapping(value = "/insertScorePq")
-    public String insertScorePq(@ModelAttribute ScoreDto dto){
-        log.info("ddyy - pq: "+dto.getScorePq());
+    public String insertScorePq(@ModelAttribute ScoreDto dto) {
+        scoreService.updatePQScore(dto);
+        log.info("ddyy - pq: " + dto.getScorePq());
         return "";
     }
 
     @ResponseBody
     @PostMapping(value = "/insertScoreSq")
-    public String insertScoreSq(@ModelAttribute ScoreDto dto){
-        log.info("ddyy - sq: "+dto.getScoreSq());
+    public String insertScoreSq(@ModelAttribute ScoreDto dto) {
+        scoreService.updateSQScore(dto);
+        return "";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/insertScoreMcq")
+    public String insertScoreMcq(@ModelAttribute ScoreDto dto) {
+        scoreService.updateMCQScore(dto);
+        return "";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/registerScore")
+    public String registerScore(@ModelAttribute ScoreDto dto) {
+        scoreService.registerScore(dto);
         return "";
     }
 }

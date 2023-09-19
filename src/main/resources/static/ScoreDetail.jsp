@@ -14,7 +14,8 @@
 <div class="card div-score">
     <div class="div-userInfo">
         <h3>2023 코딩역량테스트 채점페이지</h3>
-        <span><b>학번 : </b><span th:text="${id}"></span></span>
+        <span><b>학번 : </b><span id="userSeq" th:text="${userSeq}"></span></span>
+        <input type="hidden" id="scoreSeq" th:value="${score.scoreSeq}"/>
     </div>
     <div class="card-body">
         <hr>
@@ -80,9 +81,14 @@
         </div>
     </div>
 </div>
-<button type="button" class="btn btn-primary my-2" id="backBtn">뒤로 가기</button>
+<div style="display: flex">
+    <button type="button" class="btn btn-primary my-2 float-left" id="backBtn">뒤로 가기</button>
+    <button type="button" class="btn btn-success my-2 float-right" id="registerBtn">최종 점수 등록하기</button>
+</div>
 <script th:inline="javascript">
     $(document).ready(function () {
+        let scoreSeq = $("#scoreSeq").val();
+
         $("#backBtn").click(function () {
             location.href="/score";
         });
@@ -100,6 +106,7 @@
                 , url: "/insertScorePq"
                 , data: {
                     "scorePq": scorePq
+                    , "scoreSeq": scoreSeq
                 }
             })
         });
@@ -117,8 +124,57 @@
                 , url: "/insertScoreSq"
                 , data: {
                     "scoreSq": scoreSq
+                    , "scoreSeq": scoreSeq
                 }
             })
+        });
+
+        $("#scoreMcqBtn").click(function () {
+            let scoreMcq = $("#scoreMcq").val();
+            if(scoreMcq.length==0){
+                alert("해당 답안의 점수를 입력해주세요.");
+                return;
+            }
+
+            btnToggle("scoreMcq");
+            $.ajax({
+                type: "POST"
+                , url: "/insertScoreMcq"
+                , data: {
+                    "scoreMcq": scoreMcq
+                    , "scoreSeq": scoreSeq
+                }
+            });
+        });
+
+        $("#registerBtn").click(function () {
+            let scoreMcq = $("#scoreMcq").val();
+            let scoreSq = $("#scoreSq").val();
+            let scorePq = $("#scorePq").val();
+            let scoreAll = Number(scoreMcq)+Number(scoreSq)+Number(scorePq);
+
+            let alarmStr = "최종 점수: ["+scoreAll+"]점을 등록하시겠습니까? " +
+                "\n(주관식="+scoreSq+", 프로그래밍="+scorePq+", 객관식="+scoreMcq+")";
+
+            let alarm = confirm(alarmStr);
+            if(alarm){
+                $.ajax({
+                    type: "POST"
+                    , url: "/registerScore"
+                    , data: {
+                        "scoreMcq": scoreMcq
+                        , "scoreSq": scoreSq
+                        , "scorePq": scorePq
+                        , "scoreSeq": scoreSeq
+                        , "scoreAll": scoreAll
+                    }
+                    , success: function (data) {
+                        alert("채점 완료되었습니다.");
+                        window.location.href = "/score";
+                    }
+                });
+            }
+
         });
 
         function btnToggle(id) {
