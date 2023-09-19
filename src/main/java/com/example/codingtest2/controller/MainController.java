@@ -28,7 +28,6 @@ public class MainController {
     private final SQService sqService;
     private final PQService pqService;
     private final UserService userService;
-    private final ScoreService scoreService;
 
     @GetMapping(value = "/")
     public String login(HttpServletRequest request) {
@@ -78,7 +77,7 @@ public class MainController {
         }
     }
 
-    @GetMapping(value = "/test")
+    @GetMapping(value = "/notice")
     public String onNotice(@SessionAttribute("user") User user) {
 
         //로그인 성공 시, 임시 저장을 위해 PQResult 에 데이터(빈 값) 넣어두기
@@ -151,23 +150,5 @@ public class MainController {
         return "Finish";
     }
 
-    @GetMapping(value = "/score")
-    public String score(Model model){
-        List<UserDto> scoreList = scoreService.findUserDtoAll();
-        model.addAttribute("scoreList", scoreList);
-        return "Score";
-    }
 
-    @GetMapping(value = "/score/{id}")
-    public String scoreDetail(@PathVariable(value = "id") String id, Model model){
-        model.addAttribute("id", id);
-        User user = userService.findByUserId(id);
-
-        Map<String, Object> pQResult = scoreService.getPQResult(user);
-        Map<String, Object> sQResult = scoreService.getSQResult(user);
-        model.addAttribute("pQResult", pQResult);
-        model.addAttribute("sQResult", sQResult);
-
-        return "ScoreDetail";
-    }
 }

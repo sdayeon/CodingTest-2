@@ -1,10 +1,7 @@
 package com.example.codingtest2.service;
 
 import com.example.codingtest2.dto.UserDto;
-import com.example.codingtest2.entity.PQResult;
-import com.example.codingtest2.entity.SQResult;
-import com.example.codingtest2.entity.SQuestion;
-import com.example.codingtest2.entity.User;
+import com.example.codingtest2.entity.*;
 import com.google.gson.Gson;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +19,8 @@ import java.util.Map;
 import static com.example.codingtest2.entity.QPQResult.pQResult;
 import static com.example.codingtest2.entity.QSQResult.sQResult;
 import static com.example.codingtest2.entity.QSQuestion.sQuestion;
+import static com.example.codingtest2.entity.QMCQuestion.mCQuestion;
+import static com.example.codingtest2.entity.QMCQResult.mCQResult;
 import static com.example.codingtest2.entity.QUser.user;
 
 @Slf4j
@@ -95,6 +94,28 @@ public class ScoreService {
     private SQuestion getSQuestion(Integer sqSeq){
         return queryFactory.selectFrom(sQuestion)
                 .where(sQuestion.sqSeq.eq(sqSeq))
+                .fetchOne();
+    }
+
+    public Map<String, Object> getMCQResult(User user) {
+        MCQResult mcqResultOne = queryFactory
+                .selectFrom(mCQResult)
+                .where(mCQResult.user.eq(user))
+                .fetchOne();
+
+        Gson gson = new Gson();
+        Map<String, Object> rawResult = gson.fromJson(mcqResultOne.getMcqResult(), Map.class);
+        Map<String, Object> result = new HashMap<>();
+
+        for(String qSeq : rawResult.keySet()){
+            result.put(getMCQuestion(Integer.valueOf(qSeq)).getMcqQuestion(), rawResult.get(qSeq));
+        }
+
+        return result;
+    }
+    private MCQuestion getMCQuestion(Integer mcqSeq){
+        return queryFactory.selectFrom(mCQuestion)
+                .where(mCQuestion.mcqSeq.eq(mcqSeq))
                 .fetchOne();
     }
 }

@@ -18,7 +18,7 @@
             - 시험지 하단 '제출하기' 버튼 클릭 시, 시험이 종료되며, 더이상 답안 수정이 불가합니다.<br>
         </p>
         <a class="m-2" href="/">뒤로가기</a>
-        <a class="m-2" href="/test">확인했습니다.</a>
+        <a class="m-2" href="/notice">확인했습니다.</a>
     </div>
 </div>
 <script th:inline="javascript">
