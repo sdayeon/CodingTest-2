@@ -38,6 +38,7 @@
                 <th>레벨</th>
                 <th class="text-center">시험 완료일</th>
                 <th>답안지 확인</th>
+                <th>채점 현황</th>
             </tr>
             </thead>
             <tbody>
@@ -48,6 +49,7 @@
                 <td th:text="*{s.userLevel}"></td>
                 <td th:text="*{s.userSubmitDt}" class="text-center"></td>
                 <td><a th:href="|/score/*{s.userId}|">확인</a></td>
+                <td th:text="*{s.userScoreAll}"></td>
             </tr>
             </tbody>
         </table>

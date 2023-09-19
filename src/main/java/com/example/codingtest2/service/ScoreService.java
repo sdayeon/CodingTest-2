@@ -42,6 +42,17 @@ public class ScoreService {
                 .fetch();
 
         for (int i = 0; i < rawList.size(); i++) {
+            Score scoreAll = queryFactory.selectFrom(score)
+                    .where(score.user.userSeq.eq(rawList.get(i).getUserSeq()))
+                    .fetchOne();
+
+            String setScoreAll = "";
+            if (scoreAll == null || scoreAll.getScoreAll() == null) {
+                setScoreAll = "미채점";
+            } else {
+                setScoreAll = scoreAll.getScoreAll().toString();
+            }
+
             UserDto dto = UserDto.builder()
                     .userSeq(rawList.get(i).getUserSeq())
                     .userId(rawList.get(i).getUserId())
@@ -53,6 +64,7 @@ public class ScoreService {
                     .userSubmitDt(rawList.get(i).getUserSubmitDt().format(formatter))
                     .userTestStart(rawList.get(i).getUserTestStart().format(formatter))
                     .userTestEnd(rawList.get(i).getUserTestEnd().format(formatter))
+                    .userScoreAll(setScoreAll)
                     .build();
 
             dtoList.add(dto);

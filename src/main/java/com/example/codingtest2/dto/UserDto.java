@@ -15,9 +15,10 @@ public class UserDto {
     private String userSubmitDt;
     private String userTestStart;
     private String userTestEnd;
+    private String userScoreAll;
 
     @Builder
-    public UserDto(Integer userSeq, String userId, String userPassword, String userName, String userMajor, String userLevel, String userLoginDt, String userSubmitDt, String userTestStart, String userTestEnd) {
+    public UserDto(Integer userSeq, String userId, String userPassword, String userName, String userMajor, String userLevel, String userLoginDt, String userSubmitDt, String userTestStart, String userTestEnd, String userScoreAll) {
         this.userSeq = userSeq;
         this.userId = userId;
         this.userPassword = userPassword;
@@ -28,5 +29,6 @@ public class UserDto {
         this.userSubmitDt = userSubmitDt;
         this.userTestStart = userTestStart;
         this.userTestEnd = userTestEnd;
+        this.userScoreAll = userScoreAll;
     }
 }
