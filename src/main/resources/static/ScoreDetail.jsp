@@ -81,9 +81,9 @@
         </div>
     </div>
 </div>
-<div style="display: flex">
-    <button type="button" class="btn btn-primary my-2 float-left" id="backBtn">뒤로 가기</button>
-    <button type="button" class="btn btn-success my-2 float-right" id="registerBtn">최종 점수 등록하기</button>
+<div class="float-right">
+    <button type="button" class="btn btn-primary my-2" id="backBtn">뒤로 가기</button>
+    <button type="button" class="btn btn-success my-2" id="registerBtn">최종 점수 등록하기</button>
 </div>
 <script th:inline="javascript">
     $(document).ready(function () {
