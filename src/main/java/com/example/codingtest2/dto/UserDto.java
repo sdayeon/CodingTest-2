@@ -1,5 +1,6 @@
 package com.example.codingtest2.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -14,4 +15,18 @@ public class UserDto {
     private String userSubmitDt;
     private String userTestStart;
     private String userTestEnd;
+
+    @Builder
+    public UserDto(Integer userSeq, String userId, String userPassword, String userName, String userMajor, String userLevel, String userLoginDt, String userSubmitDt, String userTestStart, String userTestEnd) {
+        this.userSeq = userSeq;
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.userName = userName;
+        this.userMajor = userMajor;
+        this.userLevel = userLevel;
+        this.userLoginDt = userLoginDt;
+        this.userSubmitDt = userSubmitDt;
+        this.userTestStart = userTestStart;
+        this.userTestEnd = userTestEnd;
+    }
 }

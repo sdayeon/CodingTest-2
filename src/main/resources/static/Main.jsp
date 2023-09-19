@@ -68,9 +68,9 @@
         </th:block>
 
         <br>
-        <input type="button" class="btn btn-outline-primary float-right" id="submit" value="제출하기"/>
     </div>
 </div>
+<input type="button" class="btn btn-primary my-2 float-right" id="submit" value="제출하기"/>
 <script th:inline="javascript">
     $(document).ready(function () {
         function submitAction(status) {

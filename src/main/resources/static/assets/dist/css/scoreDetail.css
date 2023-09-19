@@ -21,8 +21,3 @@ body {
   padding: 15px;
   margin: 0 auto;
 }
-
-#scoreList td, #scoreList th{
-  vertical-align: middle;
-  text-align: center;
-}

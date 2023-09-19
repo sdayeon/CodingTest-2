@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -75,17 +76,6 @@ public class MainController {
                 return "Notice";
             }
         }
-    }
-
-    @GetMapping(value = "/score")
-    public String score(Model model){
-        List<User> test = scoreService.findUserAll();
-        for(User u : test){
-            log.info("ddyy: {} ", u.getUserId());
-        }
-
-        model.addAttribute("majorList", test);
-        return "Score";
     }
 
     @GetMapping(value = "/test")
@@ -159,5 +149,25 @@ public class MainController {
         HttpSession session = request.getSession();
         session.invalidate();
         return "Finish";
+    }
+
+    @GetMapping(value = "/score")
+    public String score(Model model){
+        List<UserDto> scoreList = scoreService.findUserDtoAll();
+        model.addAttribute("scoreList", scoreList);
+        return "Score";
+    }
+
+    @GetMapping(value = "/score/{id}")
+    public String scoreDetail(@PathVariable(value = "id") String id, Model model){
+        model.addAttribute("id", id);
+        User user = userService.findByUserId(id);
+
+        Map<String, Object> pQResult = scoreService.getPQResult(user);
+        Map<String, Object> sQResult = scoreService.getSQResult(user);
+        model.addAttribute("pQResult", pQResult);
+        model.addAttribute("sQResult", sQResult);
+
+        return "ScoreDetail";
     }
 }

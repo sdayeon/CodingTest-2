@@ -26,6 +26,10 @@ public class UserService {
         return userRepository.findById(userSeq);
     }
 
+    public User findByUserId(String userId){
+        return queryFactory.selectFrom(user).where(user.userId.eq(userId)).fetchOne();
+    }
+
     public Integer loginCheck(UserDto dto){
         LocalDateTime now = LocalDateTime.now();
         User uu = queryFactory.selectFrom(user).where(user.userId.eq(dto.getUserId())).fetchOne();
