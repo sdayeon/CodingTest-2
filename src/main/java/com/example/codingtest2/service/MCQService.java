@@ -3,8 +3,10 @@ package com.example.codingtest2.service;
 import com.example.codingtest2.dto.MCQResultDto;
 import com.example.codingtest2.entity.MCQResult;
 import com.example.codingtest2.entity.MCQuestion;
+import com.example.codingtest2.entity.Score;
 import com.example.codingtest2.entity.User;
 import com.example.codingtest2.repository.MCQResultRepository;
+import com.example.codingtest2.repository.ScoreRepository;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ import static com.example.codingtest2.entity.QUser.user;
 public class MCQService {
     private final JPAQueryFactory queryFactory;
     private final MCQResultRepository mcqResultRepository;
+    private final ScoreRepository scoreRepository;
     private final UserService userService;
 
     @Value("${multiple_question_count}")
@@ -54,7 +57,14 @@ public class MCQService {
                 .mcqResultScore(dto.getMcqResultScore())
                 .build();
 
+        Score score = Score.builder()
+                .user(uu)
+                .scoreMcq(dto.getMcqResultScore())
+                .build();
+
         mcqResultRepository.save(result);
+        scoreRepository.save(score);
+
         queryFactory.update(user)
                 .set(user.userSubmitDt, LocalDateTime.now())
                 .where(user.userSeq.eq(uu.getUserSeq()))

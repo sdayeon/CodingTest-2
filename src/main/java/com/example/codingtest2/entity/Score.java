@@ -1,6 +1,7 @@
 package com.example.codingtest2.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,4 +33,14 @@ public class Score {
 
     @Column(name = "score_all")
     private Integer scoreAll;
+
+    @Builder
+    public Score(Integer scoreSeq, User user, Integer scorePq, Integer scoreSq, Integer scoreMcq, Integer scoreAll) {
+        this.scoreSeq = scoreSeq;
+        this.user = user;
+        this.scorePq = scorePq;
+        this.scoreSq = scoreSq;
+        this.scoreMcq = scoreMcq;
+        this.scoreAll = scoreAll;
+    }
 }
