@@ -21,7 +21,7 @@ public class MCQuestion {
     private String mcqQuestion;
 
     @Column(name = "mcq_answer")
-    private String mcqAnswer;
+    private Integer mcqAnswer;
 
     @Column(name = "mcq_option1")
     private String mcqOption1;

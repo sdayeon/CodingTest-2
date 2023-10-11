@@ -19,7 +19,7 @@ public class QMCQuestion extends EntityPathBase<MCQuestion> {
 
     public static final QMCQuestion mCQuestion = new QMCQuestion("mCQuestion");
 
-    public final StringPath mcqAnswer = createString("mcqAnswer");
+    public final NumberPath<Integer> mcqAnswer = createNumber("mcqAnswer", Integer.class);
 
     public final StringPath mcqLevel = createString("mcqLevel");
 

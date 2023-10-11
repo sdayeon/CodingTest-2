@@ -30,8 +30,8 @@
   <form class="form-signin" action="/login" method="post">
     <h1 class="h3 mb-3 font-weight-normal">2023-2<br>코딩 테스트</h1>
 
-    <input type="text" id="inputEmail" name="userId" class="form-control" placeholder="ID" value="dy" required autofocus>
-    <input type="password" id="inputPassword" name="userPassword" class="form-control" placeholder="Password" value="11" required>
+    <input type="text" id="inputEmail" name="userId" class="form-control" placeholder="ID" required autofocus>
+    <input type="password" id="inputPassword" name="userPassword" class="form-control" placeholder="Password" required>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
   </form>
 
