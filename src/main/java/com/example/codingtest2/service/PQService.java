@@ -1,5 +1,6 @@
 package com.example.codingtest2.service;
 
+import com.example.codingtest2.dto.PQDto;
 import com.example.codingtest2.dto.PQResultDto;
 import com.example.codingtest2.entity.PQResult;
 import com.example.codingtest2.entity.PQuestion;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.codingtest2.entity.QPQResult.pQResult;
@@ -26,56 +28,52 @@ import static com.example.codingtest2.entity.QUser.user;
 public class PQService {
     private final JPAQueryFactory queryFactory;
     private final PQResultRepository pqResultRepository;
-    private final UserService userService;
 
     @Value("${programming_question_count}")
     int count;
 
-    public List<PQuestion> findByLevel(String level) {
-        return queryFactory.selectFrom(pQuestion)
-                .where(pQuestion.pqLevel.eq(level))
-                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .limit(count)
-                .fetch();
-    }
+    public List<PQDto> findByLevel(User uu) {
+        List<PQResult> result = queryFactory.selectFrom(pQResult).where(pQResult.user.eq(uu)).fetch();
+        List<PQDto> resultDTO = new ArrayList<>();
 
-    public void saveResult(PQResultDto dto) {
-        User uu = userService.findBySeq(dto.getUserSeq()).get();
-        int resultSeq = findPQResult(uu, dto.getPqSeq());
-
-        if (resultSeq == 0) {
-            pqResultRepository.save(
-                    PQResult.builder()
-                            .pQuestion(new PQuestion(dto.getPqSeq()))
-                            .pqResult(dto.getPqResult())
-                            .user(uu)
-                            .build());
-        } else {
-            queryFactory.update(pQResult)
-                    .set(pQResult.pqResult, dto.getPqResult())
-                    .where(user.userSeq.eq(uu.getUserSeq())
-                            , pQResult.pQuestion.pqSeq.eq(dto.getPqSeq()))
-                    .execute();
-        }
-    }
-
-    private int findPQResult(User uu, int pqSeq) {
-        List<PQResult> result = queryFactory
-                .selectFrom(pQResult)
-                .where(pQResult.user.eq(uu), pQResult.pQuestion.pqSeq.eq(pqSeq))
-                .fetch();
-
+        //임시 저장 내역이 없는 경우
         if (result.isEmpty()) {
-            return 0;
-        } else {
-            return pqSeq;
+            List<PQuestion> question = queryFactory.selectFrom(pQuestion)
+                    .where(pQuestion.pqLevel.eq(uu.getUserLevel()))
+                    .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
+                    .limit(count)
+                    .fetch();
+
+            for (PQuestion p : question) {
+                pqResultRepository.save(
+                        PQResult.builder()
+                                .pQuestion(p)
+                                .pqResult("")
+                                .user(uu)
+                                .build());
+
+                resultDTO.add(PQDto.toDTO(p, ""));
+            }
+            return resultDTO;
         }
+
+        //임시 저장 내역이 있는 경우
+        for (PQResult r : result) {
+            PQuestion question = queryFactory.selectFrom(pQuestion)
+                    .where(pQuestion.pqSeq.eq(r.getPQuestion().getPqSeq()))
+                    .fetchOne();
+
+            resultDTO.add(PQDto.toDTO(question, r.getPqResult()));
+        }
+        return resultDTO;
     }
 
-    public List<PQResult> findSavedResult(User uu) {
-        return queryFactory
-                .selectFrom(pQResult)
-                .where(pQResult.user.eq(uu))
-                .fetch();
+    public void saveResult(PQResultDto dto, User uu) {
+        //개별 임시저장
+        queryFactory.update(pQResult)
+                .set(pQResult.pqResult, dto.getPqResult())
+                .where(user.userSeq.eq(uu.getUserSeq())
+                        , pQResult.pQuestion.pqSeq.eq(dto.getPqSeq()))
+                .execute();
     }
 }

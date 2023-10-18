@@ -35,17 +35,13 @@
 
         <h5 class="mb-3">프로그래밍</h5>
         <th:block th:each="pq, pqq: ${pQuestion}" class="p-1 m-3">
-            <th:block th:each="pqr, pqrr: ${pQResult}">
-                <div th:if="${pq.pqSeq == pqr.pQuestion.pqSeq}">
-                    <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
-                    <p><textarea type="text" class="p-1 w-100" rows="10"
-                                 onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
-                                 th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" th:text="${pqr.pqResult}">
-                    </textarea></p>
-                    <input type="button" class="btn btn-outline-success float-right" th:id="|savePQ_${pqq.count}|"
-                           value="답안 등록"/><br><br>
-                </div>
-            </th:block>
+            <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
+            <p><textarea type="text" class="p-1 w-100" rows="10"
+                         onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
+                         th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" th:text="${pq.savedResult}">
+            </textarea></p>
+            <input type="button" class="btn btn-outline-success float-right" th:id="|savePQ_${pqq.count}|"
+                   value="답안 등록"/><br><br>
         </th:block>
 
         <br>

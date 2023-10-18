@@ -4,10 +4,11 @@ import com.example.codingtest2.dto.MCQResultDto;
 import com.example.codingtest2.dto.PQResultDto;
 import com.example.codingtest2.dto.SQResultDto;
 import com.example.codingtest2.dto.UserDto;
-import com.example.codingtest2.entity.PQResult;
-import com.example.codingtest2.entity.PQuestion;
 import com.example.codingtest2.entity.User;
-import com.example.codingtest2.service.*;
+import com.example.codingtest2.service.MCQService;
+import com.example.codingtest2.service.PQService;
+import com.example.codingtest2.service.SQService;
+import com.example.codingtest2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -79,21 +78,6 @@ public class MainController {
 
     @GetMapping(value = "/notice")
     public String onNotice(@SessionAttribute("user") User user) {
-
-        //로그인 성공 시, 임시 저장을 위해 PQResult 에 데이터(빈 값) 넣어두기
-        List<PQuestion> getPQuestion = pqService.findByLevel(user.getUserLevel());
-        List<PQResult> getPQResult = pqService.findSavedResult(user);
-
-        if (getPQResult.isEmpty()) {
-            PQResultDto pqResultDto = new PQResultDto();
-            for (PQuestion p : getPQuestion) {
-                pqResultDto.setUserSeq(user.getUserSeq());
-                pqResultDto.setPqSeq(p.getPqSeq());
-                pqResultDto.setPqResult("");
-                pqService.saveResult(pqResultDto);
-            }
-        }
-
         return "redirect:main";
     }
 
@@ -104,17 +88,14 @@ public class MainController {
         model.addAttribute("timer", user.getUserTestEnd().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
         model.addAttribute("question", mcqService.findByLevel(user.getUserLevel()));
         model.addAttribute("sQuestion", sqService.findByLevel(user.getUserLevel()));
-        model.addAttribute("pQuestion", pqService.findByLevel(user.getUserLevel()));
-        model.addAttribute("pQResult", pqService.findSavedResult(user));
+        model.addAttribute("pQuestion", pqService.findByLevel(user));
         return "Main";
     }
 
     @PostMapping(value = "/savePQ_{seq}")
     public String savePQ(@PathVariable("seq") String seq, @SessionAttribute("user") User user, @ModelAttribute PQResultDto dto) {
         log.info("[{}] {}. {}", seq, dto.getPqSeq(), dto.getPqResult());
-
-        dto.setUserSeq(user.getUserSeq());
-        pqService.saveResult(dto);
+        pqService.saveResult(dto, user);
         return "Main";
     }
 
@@ -134,10 +115,9 @@ public class MainController {
         String[] pqIndex = dto3.getPqResult().split(",,");
         for (int i = 0; i < pqIndex.length; i++) {
             int index = pqIndex[i].indexOf(":");
-            pqrDto.setUserSeq(user.getUserSeq());
             pqrDto.setPqSeq(Integer.valueOf(pqIndex[i].substring(0, index)));
             pqrDto.setPqResult(pqIndex[i].substring(index + 1, pqIndex[i].length()));
-            pqService.saveResult(pqrDto);
+            pqService.saveResult(pqrDto, user);
         }
 
         return "Main";
@@ -149,6 +129,4 @@ public class MainController {
         session.invalidate();
         return "Finish";
     }
-
-
 }
