@@ -27,13 +27,13 @@ public class PQuestion {
     private String pqImg;
 
     @Column(name = "pq_comment1")
-    private String pgComment1;
+    private String pqComment1;
 
     @Column(name = "pq_comment2")
-    private String pgComment2;
+    private String pqComment2;
 
     @Column(name = "pq_example")
-    private String pgExample;
+    private String pqExample;
 
     public PQuestion(Integer pqSeq){
         this.pqSeq = pqSeq;

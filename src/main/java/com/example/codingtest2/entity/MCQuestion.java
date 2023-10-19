@@ -40,4 +40,7 @@ public class MCQuestion {
 
     @Column(name = "mcq_level")
     private String mcqLevel;
+
+    @Column(name = "mcq_img")
+    private String mcqImg;
 }

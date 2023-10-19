@@ -13,4 +13,5 @@ public class MCQDto {
     private String mcqOption4;
     private String mcqOption5;
     private String mcqLevel;
+    private String mcqImg;
 }

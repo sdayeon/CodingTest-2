@@ -14,6 +14,7 @@
         <h3>2023 코딩역량테스트</h3>
         <span><b>응시자 : </b><span th:text="${userInfo?.userName}"></span></span>
         <span class="mx-3"><b>학과 : </b><span th:text="${userInfo?.userMajor}"></span></span>
+        <span class="mx-3"><b>레벨 : </b><span th:text="${userInfo?.userLevel}"></span></span>
     </div>
     <div class="text-right">
         <label id="timer"></label>
@@ -21,14 +22,18 @@
     <hr>
     <div class="card-body">
         <h5 class="mb-3">주관식</h5>
-        <th:block th:each="sq, sqq: ${sQuestion}" class="p-1 m-3">
-            <span th:text="${sqq.count}"></span>. <label th:text="${sq.sqQuestion}" class="mb-3"></label>
-            <div th:if="${not #strings.isEmpty(sq.sqImg)}">
-                <img th:src="${sq.sqImg}" class="w-50 p-1"/>
-            </div>
-            <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-75 mb-4"/></p>
-        </th:block>
-
+        <div th:if="${#lists.isEmpty(sQuestion)}">
+            <p>해당 레벨에서는 주관식 문제가 존재하지 않습니다.</p>
+        </div>
+        <div th:unless="${#lists.isEmpty(sQuestion)}">
+            <th:block th:each="sq, sqq: ${sQuestion}" class="p-1 m-3">
+                <span th:text="${sqq.count}"></span>. <label th:text="${sq.sqQuestion}" class="mb-3"></label>
+                <div th:if="${not #strings.isEmpty(sq.sqImg)}">
+                    <img th:src="@{images/}+${sq.sqImg}" class="w-50 p-1"/>
+                </div>
+                <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-75 mb-4"/></p>
+            </th:block>
+        </div>
         <br>
         <hr>
         <br>
@@ -36,6 +41,12 @@
         <h5 class="mb-3">프로그래밍</h5>
         <th:block th:each="pq, pqq: ${pQuestion}" class="p-1 m-3">
             <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
+            <pre th:text="${pq.pqComment1}"></pre>
+            <pre th:text="${pq.pqComment2}"></pre>
+            <pre th:text="${pq.pqExample}"></pre>
+            <div th:if="${not #strings.isEmpty(pq.pqImg)}">
+                <img th:src="@{images/}+${pq.pqImg}" style="width: 30%"/>
+            </div>
             <p><textarea type="text" class="p-1 w-100" rows="10"
                          onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
                          th:id="|pq_${pqq.count}|" th:seq="${pq.pqSeq}" th:text="${pq.savedResult}">
@@ -51,6 +62,9 @@
         <h5 class="mb-3">객관식</h5>
         <th:block th:each="q, qq:${question}" class="p-1 m-3">
             <span th:text="${qq.count}"></span>. <label th:text="${q.mcqQuestion}" class="mb-3"></label>
+            <div th:if="${not #strings.isEmpty(q.mcqImg)}">
+                <img th:src="@{images/}+${q.mcqImg}" class="w-50 p-1"/>
+            </div>
             <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="| &#9312; ${q.mcqOption1}|"
                       value="1" class="p-1"/></p>
             <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="| &#9313; ${q.mcqOption2}|"

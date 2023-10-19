@@ -21,6 +21,8 @@ public class QMCQuestion extends EntityPathBase<MCQuestion> {
 
     public final NumberPath<Integer> mcqAnswer = createNumber("mcqAnswer", Integer.class);
 
+    public final StringPath mcqImg = createString("mcqImg");
+
     public final StringPath mcqLevel = createString("mcqLevel");
 
     public final StringPath mcqOption1 = createString("mcqOption1");

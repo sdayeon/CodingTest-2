@@ -22,9 +22,9 @@ public class PQDto {
                 .pqQuestion(e.getPqQuestion())
                 .pqLevel(e.getPqLevel())
                 .pqImg(e.getPqImg())
-                .pqComment1(e.getPgComment1())
-                .pqComment2(e.getPgComment2())
-                .pqExample(e.getPgExample())
+                .pqComment1(e.getPqComment1())
+                .pqComment2(e.getPqComment2())
+                .pqExample(e.getPqExample())
                 .savedResult(result)
                 .build();
     }

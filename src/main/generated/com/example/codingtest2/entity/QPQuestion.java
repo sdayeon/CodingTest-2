@@ -19,11 +19,11 @@ public class QPQuestion extends EntityPathBase<PQuestion> {
 
     public static final QPQuestion pQuestion = new QPQuestion("pQuestion");
 
-    public final StringPath pgComment1 = createString("pgComment1");
+    public final StringPath pqComment1 = createString("pqComment1");
 
-    public final StringPath pgComment2 = createString("pgComment2");
+    public final StringPath pqComment2 = createString("pqComment2");
 
-    public final StringPath pgExample = createString("pgExample");
+    public final StringPath pqExample = createString("pqExample");
 
     public final StringPath pqImg = createString("pqImg");
 
