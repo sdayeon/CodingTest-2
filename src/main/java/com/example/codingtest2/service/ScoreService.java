@@ -89,18 +89,11 @@ public class ScoreService {
         }
     }
 
-    public Map<String, Object> getPQResult(User user) {
-        List<PQResult> pqResultList = queryFactory
+    public List<PQResult> getPQResult(User user) {
+        return queryFactory
                 .selectFrom(pQResult)
                 .where(pQResult.user.eq(user))
                 .fetch();
-
-        Map<String, Object> result = new HashMap<>();
-        for (PQResult r : pqResultList) {
-            result.put(r.getPQuestion().getPqQuestion(), r.getPqResult());
-        }
-
-        return result;
     }
 
     public void updatePQScore(ScoreDto dto) {

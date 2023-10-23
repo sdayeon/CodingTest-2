@@ -27,7 +27,7 @@
                 <input type="number" id="scoreSq" placeholder="주관식 점수 부여" th:value="${score.scoreSq}"/>
                 <input type="button" id="scoreSqBtn" value="점수 등록"/>
             </div>
-            <table class="table table-bordered">
+            <table class="table table-bordered" th:if="${#lists.isEmpty(sQResult)}">
                 <th:block th:each="sqr : ${sQResult}">
                     <tr>
                         <td class="col-1 font-weight-bold">문제</td>
@@ -39,6 +39,9 @@
                     </tr>
                 </th:block>
             </table>
+            <div th:unless="${#lists.isEmpty(sQResult)}">
+                <p>해당 레벨에서는 주관식 문제와 답안이 존재하지 않습니다.</p>
+            </div>
         </div>
         <hr>
         <div class="mb-5">
@@ -51,15 +54,16 @@
                 <th:block th:each="pqr : ${pQResult}">
                     <tr>
                         <td class="col-1 font-weight-bold">문제</td>
-                        <td th:text="${pqr.key}"></td>
+                        <td th:text="${pqr.pQuestion.pqQuestion}"></td>
                     </tr>
                     <tr>
                         <td class="col-1 font-weight-bold">학생 답안</td>
-                        <td><textarea type="text" class="p-1 w-100" rows="10" th:text="${pqr.value}" readonly
+                        <td>
+                            <textarea type="text" class="p-1 w-100" rows="10" readonly
                                       onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
-                                      >
-                            </textarea></td>
-                        <td ></td>
+                                      th:text="${pqr.pqResult}">
+                            </textarea>
+                        </td>
                     </tr>
                 </th:block>
             </table>
