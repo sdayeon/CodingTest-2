@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -69,5 +70,10 @@ public class ScoreController {
     public String registerScore(@ModelAttribute ScoreDto dto) {
         scoreService.registerScore(dto);
         return "";
+    }
+
+    @GetMapping(value = "/dev")
+    public String dev(Model model) {
+        return "Dev";
     }
 }

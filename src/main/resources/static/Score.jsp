@@ -17,6 +17,7 @@
     </div>
     <hr>
     <div class="card-body">
+        <a href="/dev">dev</a>
         <div id="searchForm" class="float-right">
             <select id="selectFilter" class="p-1 m-1">
                 <option value="10">조건없음</option>

@@ -12,12 +12,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String requestURI = request.getRequestURI();
-        log.info("[Interceptor] request URI : " + requestURI);
         HttpSession session = request.getSession(false);
-
         if (session == null || session.getAttribute("user") == null) {
-            log.info("[Interceptor] 미인증 사용자 요청");
+            log.info("[Interceptor] 미인증 사용자 요청 : "+request.getRequestURI());
             response.sendRedirect("/");
             return false;
         }

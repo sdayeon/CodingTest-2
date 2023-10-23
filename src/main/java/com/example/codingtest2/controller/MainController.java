@@ -38,7 +38,7 @@ public class MainController {
     @PostMapping(value = "/login")
     public String loginCheck(@ModelAttribute UserDto dto, Model model, HttpServletRequest request) {
         Integer resultSeq = userService.loginCheck(dto);
-
+        HttpSession session = request.getSession();
         switch (resultSeq) {
             case 0 -> {
                 log.info("[Login Fail] Not found : {}/{}", dto.getUserId(), dto.getUserPassword());
@@ -63,14 +63,13 @@ public class MainController {
             case -4 -> {
                 log.info("[Login Success - ADMIN] : {}/{}", dto.getUserId(), dto.getUserPassword());
                 model.addAttribute("admin", "admin");
+                session.setAttribute("user", "admin");
                 return "Login";
             }
             default -> {
                 log.info("[Login Success] : {}", dto.getUserId());
                 User user = userService.findBySeq(resultSeq).get();
-                HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-
                 return "Notice";
             }
         }
