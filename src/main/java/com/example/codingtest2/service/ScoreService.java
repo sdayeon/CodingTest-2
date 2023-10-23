@@ -20,6 +20,7 @@ import java.util.Map;
 import static com.example.codingtest2.entity.QMCQResult.mCQResult;
 import static com.example.codingtest2.entity.QMCQuestion.mCQuestion;
 import static com.example.codingtest2.entity.QPQResult.pQResult;
+import static com.example.codingtest2.entity.QPQuestion.pQuestion;
 import static com.example.codingtest2.entity.QSQResult.sQResult;
 import static com.example.codingtest2.entity.QSQuestion.sQuestion;
 import static com.example.codingtest2.entity.QScore.score;
@@ -169,5 +170,16 @@ public class ScoreService {
         score.setScorePq(dto.getScorePq());
         score.setScoreAll(dto.getScoreAll());
 
+    }
+
+    public List<PQuestion> getPQuestionAll(){
+        return queryFactory
+                .selectFrom(pQuestion)
+                .fetch();
+    }
+    public List<PQResult> getPQResultAll(){
+        return queryFactory
+                .selectFrom(pQResult)
+                .fetch();
     }
 }

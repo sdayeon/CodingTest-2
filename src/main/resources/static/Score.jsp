@@ -15,9 +15,12 @@
     <div class="div-userInfo">
         <h3>2023 코딩역량테스트 채점페이지</h3>
     </div>
+    <div class="card-header-pills p-1 m-1">
+        <a href="/dev" hidden>dev</a>
+        <button class="btn btn-outline-danger float-right" id="scoreExit">종료하기</button>
+    </div>
     <hr>
     <div class="card-body">
-        <a href="/dev">dev</a>
         <div id="searchForm" class="float-right">
             <select id="selectFilter" class="p-1 m-1">
                 <option value="10">조건없음</option>
@@ -58,6 +61,8 @@
 </div>
 <script th:inline="javascript">
     $(document).ready(function () {
+
+        //응시 완료된 학생 리스트 출력
         let $table = $("#scoreList").DataTable({
             //표시 건수 설정
             lengthMenu: [1,3,5]
@@ -84,6 +89,14 @@
             $table.columns("").search("").draw();
             $table.columns(Number($("#selectFilter").val())).search($("#keyword").val()).draw();
         });
+
+        //종료하기 버튼을 눌렀을 경우, 로그인 페이지로 이동
+        $("#scoreExit").click(function () {
+            let check = confirm("종료하시겠습니까?");
+            if(check){
+                location.href="/";
+            }
+        })
     });
 </script>
 </body>
