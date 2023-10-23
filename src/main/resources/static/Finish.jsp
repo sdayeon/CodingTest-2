@@ -10,10 +10,10 @@
 </head>
 <body>
 <div class="card div-notice">
-    <div class="card-body">
-        <p>시험이 종료되었습니다.</p>
-        <a href="/">처음으로</a>
-    </div>
 </div>
+<script>
+    alert('시험이 종료되었습니다.');
+    location.href="/";
+</script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <link href="assets/dist/css/notice.css" rel="stylesheet"> <!-- Custom styles for this template -->
 <head>
     <meta charset="UTF-8">
-    <title>Finish</title>
+    <title>Error</title>
 </head>
 <body>
 <div class="card div-notice">

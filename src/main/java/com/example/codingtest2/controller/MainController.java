@@ -123,7 +123,9 @@ public class MainController {
     }
 
     @GetMapping(value = "/finish")
-    public String finish() {
+    public String finish(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();
         return "Finish";
     }
 

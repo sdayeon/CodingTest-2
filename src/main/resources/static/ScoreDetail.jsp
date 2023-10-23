@@ -27,7 +27,10 @@
                 <input type="number" id="scoreSq" placeholder="주관식 점수 부여" th:value="${score.scoreSq}"/>
                 <input type="button" id="scoreSqBtn" value="점수 등록"/>
             </div>
-            <table class="table table-bordered" th:if="${#lists.isEmpty(sQResult)}">
+            <div th:if="${#maps.isEmpty(sQResult)}">
+                <p>해당 레벨에서는 주관식 문제와 답안이 존재하지 않습니다.</p>
+            </div>
+            <table th:unless="${#maps.isEmpty(sQResult)}" class="table table-bordered">
                 <th:block th:each="sqr : ${sQResult}">
                     <tr>
                         <td class="col-1 font-weight-bold">문제</td>
@@ -39,9 +42,6 @@
                     </tr>
                 </th:block>
             </table>
-            <div th:unless="${#lists.isEmpty(sQResult)}">
-                <p>해당 레벨에서는 주관식 문제와 답안이 존재하지 않습니다.</p>
-            </div>
         </div>
         <hr>
         <div class="mb-5">
