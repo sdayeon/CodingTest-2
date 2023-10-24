@@ -150,7 +150,19 @@
         }
 
         $("#submit").click(function () {
-            submitAction(1);
+            $.ajax({
+                type: "POST"
+                , url: "/checkSubmitDt"
+                , success: function (result) {
+                    if(result){
+                        alert('이미 제출한 답안이 존재합니다. 해당 답안은 제출되지 않습니다.');
+                        location.href="/";
+                    } else {
+                        submitAction(1);
+                    }
+
+                }
+            });
         });
 
         //프로그래밍 문제

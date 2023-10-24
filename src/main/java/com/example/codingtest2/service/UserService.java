@@ -54,4 +54,11 @@ public class UserService {
                 .where(user.userSeq.eq(userSeq))
                 .execute();
     }
+
+    public boolean checkSubmitDt(User uu){
+        User u = queryFactory.selectFrom(user).where(user.eq(uu)).fetchOne();
+        if(u.getUserSubmitDt() == null) return false;
+
+        return true;
+    }
 }

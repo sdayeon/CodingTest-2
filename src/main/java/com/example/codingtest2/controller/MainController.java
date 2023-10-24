@@ -122,6 +122,12 @@ public class MainController {
         return "Main";
     }
 
+    @ResponseBody
+    @PostMapping(value = "/checkSubmitDt")
+    public boolean checkSubmitDt(@SessionAttribute("user") User user){
+        return userService.checkSubmitDt(user);
+    }
+
     @GetMapping(value = "/finish")
     public String finish(HttpServletRequest request) {
         HttpSession session = request.getSession();
