@@ -17,7 +17,10 @@
     </div>
     <div class="card-header-pills p-1 m-1">
         <a href="/dev" hidden>dev</a>
-        <button class="btn btn-outline-danger float-right" id="scoreExit">종료하기</button>
+        <div class="float-right">
+            <a href="/downloadExcel" class="btn btn-outline-success" hidden>엑셀</a>
+            <button class="btn btn-outline-danger" id="scoreExit">종료하기</button>
+        </div>
     </div>
     <hr>
     <div class="card-body">

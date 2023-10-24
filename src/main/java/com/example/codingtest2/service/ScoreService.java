@@ -8,9 +8,17 @@ import com.google.gson.Gson;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,8 +43,9 @@ public class ScoreService {
     private final ScoreRepository scoreRepository;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public List<UserDto> findUserDtoAll() {
+    public List<UserDto> findUserDtoAll(String status) {
         List<UserDto> dtoList = new ArrayList<>();
+        List<UserDto> dtoListScored = new ArrayList<>();
         List<User> rawList = queryFactory
                 .selectFrom(user)
                 .where(user.userSubmitDt.isNotNull())
@@ -48,10 +57,12 @@ public class ScoreService {
                     .fetchOne();
 
             String setScoreAll = "";
+            boolean check = false;
             if (scoreAll == null || scoreAll.getScoreAll() == null) {
                 setScoreAll = "미채점";
             } else {
                 setScoreAll = scoreAll.getScoreAll().toString();
+                check = true;
             }
 
             UserDto dto = UserDto.builder()
@@ -69,7 +80,10 @@ public class ScoreService {
                     .build();
 
             dtoList.add(dto);
+            if (check) dtoListScored.add(dto);
         }
+
+        if ("scored".equals(status)) return dtoListScored;
         return dtoList;
     }
 
@@ -172,12 +186,64 @@ public class ScoreService {
 
     }
 
-    public List<PQuestion> getPQuestionAll(){
+    public Object excelDownload(HttpServletResponse response) {
+        List<UserDto> list = findUserDtoAll("scored");
+
+        try {
+            Workbook workbook = new SXSSFWorkbook();
+            Sheet sheet = workbook.createSheet("채점결과");
+            final String fileName = "2023-2 채점결과";
+
+            final String[] header = {"학번", "이름", "전공학과", "레벨", "채점결과", "시험완료"};
+            Row row = sheet.createRow(0);
+            for (int i = 0; i < header.length; i++) {
+                Cell cell = row.createCell(i);
+                cell.setCellValue(header[i]);
+            }
+
+            for (int i = 0; i < list.size(); i++) {
+                UserDto uu = list.get(i);
+                row = sheet.createRow(i + 1);
+                Cell cell = null;
+
+                cell = row.createCell(0);
+                cell.setCellValue(uu.getUserId());
+                cell = row.createCell(1);
+                cell.setCellValue(uu.getUserName());
+                cell = row.createCell(2);
+                cell.setCellValue(uu.getUserMajor());
+                cell = row.createCell(3);
+                cell.setCellValue(uu.getUserLevel());
+                cell = row.createCell(4);
+                cell.setCellValue(uu.getUserScoreAll());
+                cell = row.createCell(5);
+                cell.setCellValue(uu.getUserSubmitDt());
+            }
+
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
+
+            OutputStream tempFile = response.getOutputStream();
+            workbook.write(tempFile);
+            tempFile.close();
+
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+            ((SXSSFWorkbook) workbook).dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<PQuestion> getPQuestionAll() {
         return queryFactory
                 .selectFrom(pQuestion)
                 .fetch();
     }
-    public List<PQResult> getPQResultAll(){
+
+    public List<PQResult> getPQResultAll() {
         return queryFactory
                 .selectFrom(pQResult)
                 .fetch();

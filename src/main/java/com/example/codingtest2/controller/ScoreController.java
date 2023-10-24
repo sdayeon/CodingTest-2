@@ -7,10 +7,12 @@ import com.example.codingtest2.service.ScoreService;
 import com.example.codingtest2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Slf4j
@@ -22,7 +24,7 @@ public class ScoreController {
 
     @GetMapping(value = "/score")
     public String score(Model model) {
-        List<UserDto> scoreList = scoreService.findUserDtoAll();
+        List<UserDto> scoreList = scoreService.findUserDtoAll("all");
         model.addAttribute("scoreList", scoreList);
         return "Score";
     }
@@ -69,6 +71,11 @@ public class ScoreController {
     public String registerScore(@ModelAttribute ScoreDto dto) {
         scoreService.registerScore(dto);
         return "";
+    }
+
+    @GetMapping(value = "/downloadExcel")
+    public ResponseEntity downloadExcel(HttpServletResponse response) {
+        return ResponseEntity.ok(scoreService.excelDownload(response));
     }
 
     @GetMapping(value = "/dev")
