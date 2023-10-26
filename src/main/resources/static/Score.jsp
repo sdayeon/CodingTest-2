@@ -18,7 +18,7 @@
     <div class="card-header-pills p-1 m-1">
         <a href="/dev" hidden>dev</a>
         <div class="float-right">
-            <a href="/downloadExcel" class="btn btn-outline-success" hidden>엑셀</a>
+            <a href="/downloadExcel" class="btn btn-outline-success">엑셀</a>
             <button class="btn btn-outline-danger" id="scoreExit">종료하기</button>
         </div>
     </div>
@@ -68,7 +68,7 @@
         //응시 완료된 학생 리스트 출력
         let $table = $("#scoreList").DataTable({
             //표시 건수 설정
-            lengthMenu: [1,3,5]
+            lengthMenu: [5,10,15,20]
             , displayLength:5
 
             //언어 설정
