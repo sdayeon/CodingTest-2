@@ -10,10 +10,10 @@ public class PQDto {
     private Integer pqSeq;
     private String pqQuestion;
     private String pqLevel;
-    private String pqImg;
     private String pqComment1;
     private String pqComment2;
-    private String pqExample;
+    private String pqExInput;
+    private String pqExOutput;
     private String savedResult;
 
     public static PQDto toDTO(PQuestion e, String result) {
@@ -21,10 +21,10 @@ public class PQDto {
                 .pqSeq(e.getPqSeq())
                 .pqQuestion(e.getPqQuestion())
                 .pqLevel(e.getPqLevel())
-                .pqImg(e.getPqImg())
                 .pqComment1(e.getPqComment1())
                 .pqComment2(e.getPqComment2())
-                .pqExample(e.getPqExample())
+                .pqExInput(e.getPqExInput())
+                .pqExOutput(e.getPqExOutput())
                 .savedResult(result)
                 .build();
     }

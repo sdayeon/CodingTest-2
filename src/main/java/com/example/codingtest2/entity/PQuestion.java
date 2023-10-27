@@ -23,17 +23,17 @@ public class PQuestion {
     @Column(name = "pq_level")
     private String pqLevel;
 
-    @Column(name = "pq_img")
-    private String pqImg;
-
     @Column(name = "pq_comment1")
     private String pqComment1;
 
     @Column(name = "pq_comment2")
     private String pqComment2;
 
-    @Column(name = "pq_example")
-    private String pqExample;
+    @Column(name = "pq_ex_input")
+    private String pqExInput;
+
+    @Column(name = "pq_ex_output")
+    private String pqExOutput;
 
     public PQuestion(Integer pqSeq){
         this.pqSeq = pqSeq;

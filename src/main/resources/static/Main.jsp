@@ -27,25 +27,36 @@
         </div>
         <div th:unless="${#lists.isEmpty(sQuestion)}">
             <th:block th:each="sq, sqq: ${sQuestion}" class="p-1 m-3">
-                <span th:text="${sqq.count}"></span>. <label th:text="${sq.sqQuestion}" class="mb-3"></label>
+                <span th:text="${sqq.count}"></span>. <label style="font-" th:text="${sq.sqQuestion}" class="mb-3"></label>
                 <div th:if="${not #strings.isEmpty(sq.sqImg)}">
                     <img th:src="@{images/}+${sq.sqImg}" class="w-50 p-1"/>
                 </div>
                 <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-75 mb-4"/></p>
             </th:block>
         </div>
+
         <br>
         <hr>
-        <br>
-
         <h5 class="mb-3">프로그래밍</h5>
         <th:block th:each="pq, pqq: ${pQuestion}" class="p-1 m-3">
             <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
-            <pre th:text="${pq.pqComment1}"></pre>
-            <pre th:text="${pq.pqComment2}"></pre>
-            <pre th:text="${pq.pqExample}"></pre>
-            <div th:if="${not #strings.isEmpty(pq.pqImg)}">
-                <img th:src="@{images/}+${pq.pqImg}" style="width: 30%"/>
+            <div th:unless="${#strings.isEmpty(pq.pqComment1)}">
+                <label>조건 및 추가설명</label>
+                <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqComment1}"></pre>
+            </div>
+            <div th:unless="${#strings.isEmpty(pq.pqComment2)}">
+                <label>입출력 설명</label>
+                <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqComment2}"></pre>
+            </div>
+            <div class="row">
+                <div class="col" th:unless="${#strings.isEmpty(pq.pqExInput)}">
+                    <lable>입력 예제</lable>
+                    <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqExInput}"></pre>
+                </div>
+                <div class="col" th:unless="${#strings.isEmpty(pq.pqExOutput)}">
+                    <lable>출력 예제</lable>
+                    <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqExOutput}"></pre>
+                </div>
             </div>
             <p><textarea type="text" class="p-1 w-100" rows="10"
                          onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
@@ -57,8 +68,6 @@
 
         <br>
         <hr>
-        <br>
-
         <h5 class="mb-3">객관식</h5>
         <th:block th:each="q, qq:${question}" class="p-1 m-3">
             <span th:text="${qq.count}"></span>. <label th:text="${q.mcqQuestion}" class="mb-3"></label>

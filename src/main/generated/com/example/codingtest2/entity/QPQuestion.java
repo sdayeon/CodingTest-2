@@ -23,9 +23,9 @@ public class QPQuestion extends EntityPathBase<PQuestion> {
 
     public final StringPath pqComment2 = createString("pqComment2");
 
-    public final StringPath pqExample = createString("pqExample");
+    public final StringPath pqExInput = createString("pqExInput");
 
-    public final StringPath pqImg = createString("pqImg");
+    public final StringPath pqExOutput = createString("pqExOutput");
 
     public final StringPath pqLevel = createString("pqLevel");
 
