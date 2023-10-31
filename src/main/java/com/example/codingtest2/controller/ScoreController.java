@@ -81,6 +81,7 @@ public class ScoreController {
     @GetMapping(value = "/dev")
     public String dev(Model model) {
         model.addAttribute("question", scoreService.getPQuestionAll());
+        model.addAttribute("sQuestion", scoreService.getSQuestionAll());
         model.addAttribute("result", scoreService.getPQResultAll());
         return "Dev";
     }

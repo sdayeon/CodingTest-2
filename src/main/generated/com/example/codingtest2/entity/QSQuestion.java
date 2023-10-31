@@ -21,6 +21,8 @@ public class QSQuestion extends EntityPathBase<SQuestion> {
 
     public final StringPath sqAnswer = createString("sqAnswer");
 
+    public final StringPath sqComment = createString("sqComment");
+
     public final StringPath sqImg = createString("sqImg");
 
     public final StringPath sqLevel = createString("sqLevel");

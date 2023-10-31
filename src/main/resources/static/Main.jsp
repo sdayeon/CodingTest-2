@@ -27,11 +27,15 @@
         </div>
         <div th:unless="${#lists.isEmpty(sQuestion)}">
             <th:block th:each="sq, sqq: ${sQuestion}" class="p-1 m-3">
-                <span th:text="${sqq.count}"></span>. <label style="font-" th:text="${sq.sqQuestion}" class="mb-3"></label>
-                <div th:if="${not #strings.isEmpty(sq.sqImg)}">
-                    <img th:src="@{images/}+${sq.sqImg}" class="w-50 p-1"/>
+                <label class="mb-3" th:text="|${sqq.count}. ${sq.sqQuestion}|"></label>
+                <div th:unless="${#strings.isEmpty(sq.sqComment)}">
+                    <span>◉ 조건 및 추가설명</span>
+                    <pre class="p-3 w-50" style="border: solid 1px;" th:text="${sq.sqComment}"></pre>
                 </div>
-                <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-75 mb-4"/></p>
+                <div th:if="${not #strings.isEmpty(sq.sqImg)}">
+                    <img th:src="@{images/}+${sq.sqImg}" style="width: 40%;"/>
+                </div>
+                <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-50 mb-4"/></p>
             </th:block>
         </div>
 
@@ -39,22 +43,22 @@
         <hr>
         <h5 class="mb-3">프로그래밍</h5>
         <th:block th:each="pq, pqq: ${pQuestion}" class="p-1 m-3">
-            <span th:text="${pqq.count}"></span>. <label th:text="${pq.pqQuestion}" class="mb-3"></label>
+            <label class="mb-3" th:text="|${pqq.count}. ${pq.pqQuestion}|"></label>
             <div th:unless="${#strings.isEmpty(pq.pqComment1)}">
-                <label>조건 및 추가설명</label>
+                <span>◉ 조건 및 추가설명</span>
                 <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqComment1}"></pre>
             </div>
             <div th:unless="${#strings.isEmpty(pq.pqComment2)}">
-                <label>입출력 설명</label>
+                <label>◉ 입출력 설명</label>
                 <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqComment2}"></pre>
             </div>
             <div class="row">
                 <div class="col" th:unless="${#strings.isEmpty(pq.pqExInput)}">
-                    <lable>입력 예제</lable>
+                    <lable>◉ 입력 예제</lable>
                     <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqExInput}"></pre>
                 </div>
                 <div class="col" th:unless="${#strings.isEmpty(pq.pqExOutput)}">
-                    <lable>출력 예제</lable>
+                    <lable>◉ 출력 예제</lable>
                     <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqExOutput}"></pre>
                 </div>
             </div>
@@ -70,7 +74,7 @@
         <hr>
         <h5 class="mb-3">객관식</h5>
         <th:block th:each="q, qq:${question}" class="p-1 m-3">
-            <span th:text="${qq.count}"></span>. <label th:text="${q.mcqQuestion}" class="mb-3"></label>
+            <label class="mb-3" th:text="|${qq.count}. ${q.mcqQuestion}|"></label>
             <div th:if="${not #strings.isEmpty(q.mcqImg)}">
                 <img th:src="@{images/}+${q.mcqImg}" class="w-50 p-1"/>
             </div>

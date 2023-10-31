@@ -248,4 +248,10 @@ public class ScoreService {
                 .selectFrom(pQResult)
                 .fetch();
     }
+
+    public List<SQuestion> getSQuestionAll(){
+        return queryFactory
+                .selectFrom(sQuestion)
+                .fetch();
+    }
 }

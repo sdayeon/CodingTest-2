@@ -20,6 +20,9 @@ public class SQuestion {
     @Column(name = "sq_question")
     private String sqQuestion;
 
+    @Column(name = "sq_comment")
+    private String sqComment;
+
     @Column(name = "sq_answer")
     private String sqAnswer;
 

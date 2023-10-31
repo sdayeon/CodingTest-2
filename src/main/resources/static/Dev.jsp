@@ -15,25 +15,41 @@
 </head>
 <body>
 <div class="card div-score">
+    <h5 class="mb-3">주관식</h5>
+    <div class="card-body">
+        <th:block th:each="sq, sqq: ${sQuestion}" class="p-1 m-3">
+            <label class="mb-3" th:text="|${sqq.count}. ${sq.sqQuestion}|"></label>
+            <div th:unless="${#strings.isEmpty(sq.sqComment)}">
+                <span>◉ 조건 및 추가설명</span>
+                <pre class="p-3 w-50" style="border: solid 1px;" th:text="${sq.sqComment}"></pre>
+            </div>
+            <div th:if="${not #strings.isEmpty(sq.sqImg)}">
+                <img th:src="@{images/}+${sq.sqImg}" style="width: 40%;"/>
+            </div>
+            <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-50 mb-4"/></p>
+        </th:block>
+    </div>
+
+    <hr>
     <h5>프로그래밍 문제</h5>
     <div class="card-body">
         <th:block th:each="r: ${question}" class="p-1 m-3">
             <label th:text="${r.pqQuestion}" class="mb-3"></label>
             <div th:unless="${#strings.isEmpty(r.pqComment1)}">
-                <label>조건 및 추가설명</label>
+                <span>◉ 조건 및 추가설명</span>
                 <pre class="p-3" style="border: solid 1px;" th:text="${r.pqComment1}"></pre>
             </div>
             <div th:unless="${#strings.isEmpty(r.pqComment2)}">
-                <label>입출력 설명</label>
+                <label>◉ 입출력 설명</label>
                 <pre class="p-3" style="border: solid 1px;" th:text="${r.pqComment2}"></pre>
             </div>
             <div class="row">
                 <div class="col" th:unless="${#strings.isEmpty(r.pqExInput)}">
-                    <lable>입력 예제</lable>
+                    <lable>◉ 입력 예제</lable>
                     <pre class="p-3" style="border: solid 1px;" th:text="${r.pqExInput}"></pre>
                 </div>
                 <div class="col" th:unless="${#strings.isEmpty(r.pqExOutput)}">
-                    <lable>출력 예제</lable>
+                    <lable>◉ 출력 예제</lable>
                     <pre class="p-3" style="border: solid 1px;" th:text="${r.pqExOutput}"></pre>
                 </div>
             </div>
