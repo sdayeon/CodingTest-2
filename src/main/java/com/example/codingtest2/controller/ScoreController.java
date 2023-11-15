@@ -83,6 +83,7 @@ public class ScoreController {
         model.addAttribute("question", scoreService.getPQuestionAll());
         model.addAttribute("sQuestion", scoreService.getSQuestionAll());
         model.addAttribute("result", scoreService.getPQResultAll());
+        model.addAttribute("sQResult", scoreService.getSQResult(userService.findByUserId("20192220")));
         return "Dev";
     }
 }

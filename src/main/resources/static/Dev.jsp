@@ -15,6 +15,38 @@
 </head>
 <body>
 <div class="card div-score">
+    <table th:unless="${#lists.isEmpty(sQResult)}" class="table table-bordered">
+        <th:block th:each="sqr : ${sQResult}">
+            <tr class="table-active">
+                <td class="col-1 font-weight-bold">문제</td>
+                <td th:text="${sqr.sqQuestion}"></td>
+            </tr>
+            <tr>
+                <td class="col-1 font-weight-bold">학생 답안</td>
+                <td th:text="${sqr.sqResult}"></td>
+            </tr>
+            <tr>
+                <td class="col-1 font-weight-bold">정답</td>
+                <td th:text="${sqr.sqAnswer}"></td>
+            </tr>
+            <hr>
+        </th:block>
+    </table>
+
+<!--    <table th:unless="${#maps.isEmpty(sQResult)}" class="table table-bordered">
+        <th:block th:each="sqr : ${sQResult}">
+            <tr>
+                <td class="col-1 font-weight-bold">문제</td>
+                <td th:text="${sqr.key}"></td>
+            </tr>
+            <tr>
+                <td class="col-1 font-weight-bold">학생 답안</td>
+                <td th:text="${sqr.value}"></td>
+            </tr>
+        </th:block>
+    </table>-->
+
+    <hr>
     <h5 class="mb-3">주관식</h5>
     <div class="card-body">
         <th:block th:each="sq, sqq: ${sQuestion}" class="p-1 m-3">

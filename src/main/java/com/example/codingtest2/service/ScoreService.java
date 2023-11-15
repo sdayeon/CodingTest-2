@@ -1,5 +1,6 @@
 package com.example.codingtest2.service;
 
+import com.example.codingtest2.dto.SQResultDto;
 import com.example.codingtest2.dto.ScoreDto;
 import com.example.codingtest2.dto.UserDto;
 import com.example.codingtest2.entity.*;
@@ -116,7 +117,39 @@ public class ScoreService {
         score.setScorePq(dto.getScorePq());
     }
 
-    public Map<String, Object> getSQResult(User user) {
+    public List<SQResultDto> getSQResult(User user) {
+        SQResult sqResultOne = queryFactory
+                .selectFrom(sQResult)
+                .where(sQResult.user.eq(user))
+                .fetchOne();
+
+        Gson gson = new Gson();
+        Map<String, Object> rawResult = gson.fromJson(sqResultOne.getSqResult(), Map.class);
+        Map<String, Object> result = new HashMap<>();
+        List<SQResultDto> list = new ArrayList<>();
+
+        for(Map.Entry<String, Object>  test : rawResult.entrySet()){
+            SQResultDto dto = new SQResultDto();
+            SQuestion sq = getSQuestion(Integer.valueOf(test.getKey()));
+
+            dto.setSqQuestion(sq.getSqQuestion());
+            dto.setSqResult(test.getValue().toString());
+            dto.setSqAnswer(sq.getSqAnswer());
+            list.add(dto);
+
+            System.out.println("문제: "+sq.getSqQuestion());
+            System.out.println("학생: "+test.getValue());
+            System.out.println("정답: "+sq.getSqAnswer());
+        }
+
+        for (String qSeq : rawResult.keySet()) {
+            result.put(getSQuestion(Integer.valueOf(qSeq)).getSqQuestion(), rawResult.get(qSeq));
+        }
+
+        return list;
+    }
+
+    public Map<String, Object> getSQResult_origin(User user) {
         SQResult sqResultOne = queryFactory
                 .selectFrom(sQResult)
                 .where(sQResult.user.eq(user))

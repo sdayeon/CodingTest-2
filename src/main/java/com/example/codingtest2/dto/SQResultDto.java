@@ -7,4 +7,7 @@ public class SQResultDto {
     private Integer sqResultSeq;
     private String sqResult;
     private Integer userSeq;
+
+    private String sqQuestion;
+    private String sqAnswer;
 }
