@@ -27,18 +27,22 @@
                 <input type="number" id="scoreSq" placeholder="주관식 점수 부여" th:value="${score.scoreSq}"/>
                 <input type="button" id="scoreSqBtn" value="점수 등록"/>
             </div>
-            <div th:if="${#maps.isEmpty(sQResult)}">
+            <div th:if="${#lists.isEmpty(sQResult)}">
                 <p>해당 레벨에서는 주관식 문제와 답안이 존재하지 않습니다.</p>
             </div>
-            <table th:unless="${#maps.isEmpty(sQResult)}" class="table table-bordered">
+            <table th:unless="${#lists.isEmpty(sQResult)}" class="table table-bordered">
                 <th:block th:each="sqr : ${sQResult}">
-                    <tr>
+                    <tr class="table-active">
                         <td class="col-1 font-weight-bold">문제</td>
-                        <td th:text="${sqr.key}"></td>
+                        <td th:text="${sqr.sqQuestion}"></td>
                     </tr>
                     <tr>
                         <td class="col-1 font-weight-bold">학생 답안</td>
-                        <td th:text="${sqr.value}"></td>
+                        <td th:text="${sqr.sqResult}"></td>
+                    </tr>
+                    <tr>
+                        <td class="col-1 font-weight-bold">정답</td>
+                        <td th:text="${sqr.sqAnswer}"></td>
                     </tr>
                 </th:block>
             </table>
@@ -52,7 +56,7 @@
             </div>
             <table class="table table-bordered">
                 <th:block th:each="pqr : ${pQResult}">
-                    <tr>
+                    <tr class="table-active">
                         <td class="col-1 font-weight-bold">문제</td>
                         <td th:text="${pqr.pQuestion.pqQuestion}"></td>
                     </tr>
@@ -78,7 +82,7 @@
             </div>
             <table class="table table-bordered">
                 <th:block th:each="mcqr : ${mcQResult}">
-                    <tr>
+                    <tr class="table-active">
                         <td class="col-1 font-weight-bold">문제</td>
                         <td th:text="${mcqr.key}"></td>
                     </tr>

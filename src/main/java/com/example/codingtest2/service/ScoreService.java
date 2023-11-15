@@ -1,5 +1,6 @@
 package com.example.codingtest2.service;
 
+import com.example.codingtest2.dto.SQResultDto;
 import com.example.codingtest2.dto.ScoreDto;
 import com.example.codingtest2.dto.UserDto;
 import com.example.codingtest2.entity.*;
@@ -116,7 +117,9 @@ public class ScoreService {
         score.setScorePq(dto.getScorePq());
     }
 
-    public Map<String, Object> getSQResult(User user) {
+    public List<SQResultDto> getSQResult(User user){
+        List<SQResultDto> list = new ArrayList<>();
+
         SQResult sqResultOne = queryFactory
                 .selectFrom(sQResult)
                 .where(sQResult.user.eq(user))
@@ -124,13 +127,17 @@ public class ScoreService {
 
         Gson gson = new Gson();
         Map<String, Object> rawResult = gson.fromJson(sqResultOne.getSqResult(), Map.class);
-        Map<String, Object> result = new HashMap<>();
+        for(Map.Entry<String, Object>  test : rawResult.entrySet()) {
+            SQResultDto dto = new SQResultDto();
+            SQuestion sq = getSQuestion(Integer.valueOf(test.getKey()));
 
-        for (String qSeq : rawResult.keySet()) {
-            result.put(getSQuestion(Integer.valueOf(qSeq)).getSqQuestion(), rawResult.get(qSeq));
+            dto.setSqQuestion(sq.getSqQuestion());
+            dto.setSqResult(test.getValue().toString());
+            dto.setSqAnswer(sq.getSqAnswer());
+            list.add(dto);
         }
 
-        return result;
+        return list;
     }
 
     private SQuestion getSQuestion(Integer sqSeq) {
