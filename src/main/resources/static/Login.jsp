@@ -27,6 +27,7 @@
 </head>
 
 <body class="text-center">
+<a href="/dev">dev</a>
   <form class="form-signin" action="/login" method="post">
     <div class="m-3 font-weight-normal">
       <span>2023-2</span>
