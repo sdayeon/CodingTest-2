@@ -16,7 +16,7 @@
         <h3>2023 코딩역량테스트 채점페이지</h3>
     </div>
     <div class="card-header-pills p-1 m-1">
-        <a href="/dev">dev</a>
+        <a href="/dev" hidden>dev</a>
         <div class="float-right">
             <a href="/downloadExcel" class="btn btn-outline-success">엑셀</a>
             <button class="btn btn-outline-danger" id="scoreExit">종료하기</button>
