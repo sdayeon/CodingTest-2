@@ -6,10 +6,17 @@ import com.example.codingtest2.repository.UserRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static com.example.codingtest2.entity.QUser.user;
@@ -60,5 +67,49 @@ public class UserService {
         if(u.getUserSubmitDt() == null) return false;
 
         return true;
+    }
+
+    public void schUserInfo(MultipartFile file) throws IOException {
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        Workbook workbook = new XSSFWorkbook(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+        int startCell = 4;
+
+        for(int i=startCell; i<sheet.getPhysicalNumberOfRows(); i++){
+            Row row = sheet.getRow(i);
+
+            String userLevel = String.valueOf(row.getCell(8).getStringCellValue().charAt(3));
+            LocalDateTime userTestStart = null;
+            LocalDateTime userTestEnd = null;
+
+            switch (userLevel){
+                case "1":
+                    userTestStart = LocalDateTime.parse("2023-11-23 09:00:00", f);
+                    userTestEnd = LocalDateTime.parse("2023-11-23 10:00:00", f);
+                    break;
+                case "2":
+                    userTestStart = LocalDateTime.parse("2023-11-24 09:00:00", f);
+                    userTestEnd = LocalDateTime.parse("2023-11-24 10:00:00", f);
+                    break;
+                case "3":
+                    userTestStart = LocalDateTime.parse("2023-11-25 09:00:00", f);
+                    userTestEnd = LocalDateTime.parse("2023-11-25 10:00:00", f);
+                    break;
+            }
+
+            User user = User.builder()
+                    .userId(String.valueOf((int)row.getCell(4).getNumericCellValue()))
+                    .userPassword(row.getCell(7).getStringCellValue())
+                    .userName(row.getCell(5).getStringCellValue())
+                    .userMajor(row.getCell(2).getStringCellValue())
+                    .userLevel(userLevel)
+                    .userTestStart(userTestStart)
+                    .userTestEnd(userTestEnd)
+                    .build();
+
+            userRepository.save(user);
+            log.info(user.toString());
+        }
     }
 }

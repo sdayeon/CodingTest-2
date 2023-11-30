@@ -1,6 +1,7 @@
 package com.example.codingtest2.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,4 +45,15 @@ public class User {
 
     @Column(name = "user_test_end")
     private LocalDateTime userTestEnd;
+
+    @Builder
+    public User(String userId, String userPassword, String userName, String userMajor, String userLevel, LocalDateTime userTestStart, LocalDateTime userTestEnd) {
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.userName = userName;
+        this.userMajor = userMajor;
+        this.userLevel = userLevel;
+        this.userTestStart = userTestStart;
+        this.userTestEnd = userTestEnd;
+    }
 }

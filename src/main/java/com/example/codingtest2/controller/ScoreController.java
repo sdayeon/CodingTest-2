@@ -11,8 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -84,5 +87,12 @@ public class ScoreController {
         model.addAttribute("sQuestion", scoreService.getSQuestionAll());
         model.addAttribute("result", scoreService.getPQResultAll());
         return "Dev";
+    }
+
+    @PostMapping(value = "/schUserInfo")
+    public String insertUserInfo(@RequestParam("excel") MultipartFile file, HttpServletRequest request) throws IOException {
+        if(!file.isEmpty())
+            userService.schUserInfo(file);
+        return "redirect:"+ request.getHeader("Referer");
     }
 }

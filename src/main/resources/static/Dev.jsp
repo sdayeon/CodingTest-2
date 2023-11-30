@@ -15,6 +15,15 @@
 </head>
 <body>
 <div class="card div-score">
+    <h5 class="mb-3">학생 정보 기입</h5>
+    <div class="card-body">
+        <form method="POST" action="/schUserInfo" enctype="multipart/form-data" class="p-1">
+            <input type="file" name="excel" />
+            <input type="submit" value="insert Excel"/>
+        </form>
+    </div>
+
+    <hr>
     <h5 class="mb-3">주관식</h5>
     <div class="card-body">
         <th:block th:each="sq, sqq: ${sQuestion}" class="p-1 m-3">
