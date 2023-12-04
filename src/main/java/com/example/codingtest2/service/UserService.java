@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,15 @@ public class UserService {
     private final JPAQueryFactory queryFactory;
     private final UserRepository userRepository;
 
+    @Value("${add_test_day}")
+    int addTestDay;
+
+    @Value("${add_test_hour_start}")
+    int addTestHourStart;
+
+    @Value("${add_test_hour_end}")
+    int addTestHourEnd;
+
     public Optional<User> findBySeq(Integer userSeq) {
         return userRepository.findById(userSeq);
     }
@@ -38,20 +48,32 @@ public class UserService {
     }
 
     public Integer loginCheck(UserDto dto){
-        LocalDateTime now = LocalDateTime.now();
         User uu = queryFactory.selectFrom(user).where(user.userId.eq(dto.getUserId())).fetchOne();
 
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime addTestStart = LocalDateTime.of(2023,12,addTestDay,addTestHourStart,0,0);
+        LocalDateTime addTestEnd = LocalDateTime.of(2023,12,addTestDay,addTestHourEnd,0,0);
+
+        //계정이 없는 경우
         if(uu==null) return 0;
 
+        //이미 응시한 경우
+        if(uu.getUserSubmitDt()!=null) return -3;
+
+        //관리자 계정으로 로그인한 경우
         if("admin".equals(uu.getUserId())) return -4;
 
+        //비밀번호가 틀렸을 경우
         if(!uu.getUserPassword().equals(dto.getUserPassword())) return -1;
 
+        //예비 일정 시간일 경우
+        if(addTestStart.isBefore(now) && addTestEnd.isAfter(now)) return uu.getUserSeq();
+
+        //응시 일자 내에 접속하지 않은 경우
         if(!uu.getUserTestStart().isBefore(now)) return -2;
         if(!uu.getUserTestEnd().isAfter(now)) return -2;
 
-        if(uu.getUserSubmitDt()!=null) return -3;
-
+        //정상 접속한 경우
         return uu.getUserSeq();
     }
 
