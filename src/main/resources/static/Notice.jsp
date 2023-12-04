@@ -12,13 +12,24 @@
 <div class="card div-notice">
     <div class="card-body">
         <p>
+            <b>주의 사항</b><br>
             - Chrome 브라우저에서 최적화되어있습니다. 모바일 환경은 지원하지 않습니다.<br>
             - 브라우저 창을 닫거나, 페이지 새로고침, 뒤로가기 버튼 클릭 시, 시험이 초기화됩니다.<br>
             - 프로그래밍 문제의 답안은 개별로 저장이 가능합니다.<br>
+            - 프로그래밍 문제의 답안은 복사 & 붙여넣기가 가능합니다.<br>
             - 시험지 하단 '제출하기' 버튼 클릭 시, 시험이 종료되며, 더이상 답안 수정이 불가합니다.<br>
-        </p>
-        <a class="m-2" href="/">뒤로가기</a>
-        <a class="m-2" href="/notice">확인했습니다.</a>
+            - 하단에 안내된 웹 컴파일러는 필수가 아닌 선택 사항입니다.<br>
+        </p><br>
+        <p>
+            <b>온라인 웹 컴파일러</b><br>
+            - C : <a href="https://www.ideone.com/" target='_blank'>Ideone</a><br>
+            - Python : <a href="https://colab.research.google.com/" target='_blank'>Google Colab</a><br>
+            - Java : <a href="https://www.compilejava.net/" target='_blank'>Online JAVA IDE</a><br>
+        </p><br>
+        <div class="float-right">
+            <a class="m-2" href="/">뒤로가기</a>
+            <a class="m-2" href="/notice">확인했습니다.</a>
+        </div>
     </div>
 </div>
 <script th:inline="javascript">
