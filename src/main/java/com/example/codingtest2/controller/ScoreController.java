@@ -81,13 +81,13 @@ public class ScoreController {
         return ResponseEntity.ok(scoreService.excelDownload(response));
     }
 
-    @GetMapping(value = "/dev")
+    /*@GetMapping(value = "/dev")
     public String dev(Model model) {
         model.addAttribute("question", scoreService.getPQuestionAll());
         model.addAttribute("sQuestion", scoreService.getSQuestionAll());
         model.addAttribute("result", scoreService.getPQResultAll());
         return "Dev";
-    }
+    }*/
 
     @PostMapping(value = "/schUserInfo")
     public String insertUserInfo(@RequestParam("excel") MultipartFile file, HttpServletRequest request) throws IOException {
