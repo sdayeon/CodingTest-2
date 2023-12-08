@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.14'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    id 'war'
 }
 
 group = 'com.example'
@@ -72,3 +71,7 @@ clean {
     delete file(querydslSrcDir)
 }
 //querydsl setting
+
+bootJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
