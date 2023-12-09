@@ -44,6 +44,10 @@ public class ScoreController {
         model.addAttribute("mcQResult", scoreService.getMCQResult(user));
         model.addAttribute("mcQResultCount", scoreService.getMCQResultCount(user));
 
+        int mcqCount = 4;
+        if("3".equals(user.getUserLevel())) mcqCount = 2;
+        model.addAttribute("mcQCount", mcqCount);
+
         return "ScoreDetail";
     }
 

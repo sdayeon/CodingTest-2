@@ -33,15 +33,15 @@
             <table th:unless="${#lists.isEmpty(sQResult)}" class="table table-bordered">
                 <th:block th:each="sqr : ${sQResult}">
                     <tr class="table-active">
-                        <td class="col-1 font-weight-bold">문제</td>
+                        <td class="col-2 font-weight-bold">문제</td>
                         <td th:text="${sqr.sqQuestion}"></td>
                     </tr>
                     <tr>
-                        <td class="col-1 font-weight-bold">학생 답안</td>
+                        <td class="col-2 font-weight-bold">학생 답안</td>
                         <td th:text="${sqr.sqResult}"></td>
                     </tr>
                     <tr>
-                        <td class="col-1 font-weight-bold">정답</td>
+                        <td class="col-2 font-weight-bold">정답</td>
                         <td th:text="${sqr.sqAnswer}"></td>
                     </tr>
                 </th:block>
@@ -75,6 +75,7 @@
         <hr>
         <div class="mb-5">
             <h5>객관식 문제 답안</h5>
+            <p th:text="|(해당 레벨에서 ${mcQCount}문제 출제되었습니다. 답안이 부족한 경우, 해당 문제에 대한 답안을 작성하지 않은 상태입니다.)|"></p>
             <div class="float-right my-2 text-right">
                 <input type="number" id="scoreMcq" placeholder="객관식 점수 부여" th:value="${score.scoreMcq}"/>
                 <input type="button" id="scoreMcqBtn" value="점수 등록" class="my-1"/><br>

@@ -228,6 +228,132 @@
             });
         });
 
+        $("#savePQ_3").click(function () {
+            savePQToggle(3);
+            if ($(this).val() == "답안 등록")
+                return;
+
+            let pqSeq = document.getElementById("pq_3").getAttribute('seq');
+            let pqResult = document.getElementById("pq_3").value;
+
+            $.ajax({
+                type: "POST"
+                , url: "/savePQ_3"
+                , data: {
+                    "pqSeq": pqSeq
+                    , "pqResult": pqResult
+                }
+                , success: function (data) {
+                    alert("임시저장 되었습니다.");
+                }
+            });
+        });
+
+        $("#savePQ_4").click(function () {
+            savePQToggle(4);
+            if ($(this).val() == "답안 등록")
+                return;
+
+            let pqSeq = document.getElementById("pq_4").getAttribute('seq');
+            let pqResult = document.getElementById("pq_4").value;
+
+            $.ajax({
+                type: "POST"
+                , url: "/savePQ_4"
+                , data: {
+                    "pqSeq": pqSeq
+                    , "pqResult": pqResult
+                }
+                , success: function (data) {
+                    alert("임시저장 되었습니다.");
+                }
+            });
+        });
+
+        $("#savePQ_5").click(function () {
+            savePQToggle(5);
+            if ($(this).val() == "답안 등록")
+                return;
+
+            let pqSeq = document.getElementById("pq_5").getAttribute('seq');
+            let pqResult = document.getElementById("pq_5").value;
+
+            $.ajax({
+                type: "POST"
+                , url: "/savePQ_5"
+                , data: {
+                    "pqSeq": pqSeq
+                    , "pqResult": pqResult
+                }
+                , success: function (data) {
+                    alert("임시저장 되었습니다.");
+                }
+            });
+        });
+
+        $("#savePQ_6").click(function () {
+            savePQToggle(6);
+            if ($(this).val() == "답안 등록")
+                return;
+
+            let pqSeq = document.getElementById("pq_6").getAttribute('seq');
+            let pqResult = document.getElementById("pq_6").value;
+
+            $.ajax({
+                type: "POST"
+                , url: "/savePQ_6"
+                , data: {
+                    "pqSeq": pqSeq
+                    , "pqResult": pqResult
+                }
+                , success: function (data) {
+                    alert("임시저장 되었습니다.");
+                }
+            });
+        });
+
+        $("#savePQ_7").click(function () {
+            savePQToggle(7);
+            if ($(this).val() == "답안 등록")
+                return;
+
+            let pqSeq = document.getElementById("pq_7").getAttribute('seq');
+            let pqResult = document.getElementById("pq_7").value;
+
+            $.ajax({
+                type: "POST"
+                , url: "/savePQ_7"
+                , data: {
+                    "pqSeq": pqSeq
+                    , "pqResult": pqResult
+                }
+                , success: function (data) {
+                    alert("임시저장 되었습니다.");
+                }
+            });
+        });
+
+        $("#savePQ_8").click(function () {
+            savePQToggle(8);
+            if ($(this).val() == "답안 등록")
+                return;
+
+            let pqSeq = document.getElementById("pq_8").getAttribute('seq');
+            let pqResult = document.getElementById("pq_8").value;
+
+            $.ajax({
+                type: "POST"
+                , url: "/savePQ_8"
+                , data: {
+                    "pqSeq": pqSeq
+                    , "pqResult": pqResult
+                }
+                , success: function (data) {
+                    alert("임시저장 되었습니다.");
+                }
+            });
+        });
+
         function savePQToggle(num) {
             let question = $("#pq_" + num);
             let saveBtn = $("#savePQ_" + num);

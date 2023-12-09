@@ -118,6 +118,7 @@ public class MainController {
             pqService.saveResult(pqrDto, user);
         }
 
+        log.info("[Submit] : {}", user.getUserId());
         return "Main";
     }
 
