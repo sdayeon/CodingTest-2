@@ -22,7 +22,7 @@
         </p><br>
         <p>
             <b>온라인 웹 컴파일러</b><br>
-            - C : <a href="https://www.ideone.com/" target='_blank'>Ideone</a><br>
+            - C : <a href="https://www.programiz.com/c-programming/online-compiler" target='_blank'>Online C compiler</a><br>
             - Python : <a href="https://colab.research.google.com/" target='_blank'>Google Colab</a><br>
             - Java : <a href="https://www.compilejava.net/" target='_blank'>Online JAVA IDE</a><br>
         </p><br>

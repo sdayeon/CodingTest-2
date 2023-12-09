@@ -57,11 +57,11 @@
             <table class="table table-bordered">
                 <th:block th:each="pqr : ${pQResult}">
                     <tr class="table-active">
-                        <td class="col-1 font-weight-bold">문제</td>
+                        <td class="col-2 font-weight-bold">문제</td>
                         <td th:text="${pqr.pQuestion.pqQuestion}"></td>
                     </tr>
                     <tr>
-                        <td class="col-1 font-weight-bold">학생 답안</td>
+                        <td class="col-2 font-weight-bold">학생 답안</td>
                         <td>
                             <textarea type="text" class="p-1 w-100" rows="10" readonly
                                       onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
@@ -84,11 +84,11 @@
             <table class="table table-bordered">
                 <th:block th:each="mcqr : ${mcQResult}">
                     <tr class="table-active">
-                        <td class="col-1 font-weight-bold">문제</td>
+                        <td class="col-2 font-weight-bold">문제</td>
                         <td th:text="${mcqr.key}"></td>
                     </tr>
                     <tr>
-                        <td class="col-1 font-weight-bold">학생 답안</td>
+                        <td class="col-2 font-weight-bold">학생 답안</td>
                         <td th:text="${mcqr.value}"></td>
                     </tr>
                 </th:block>
