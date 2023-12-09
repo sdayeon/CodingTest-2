@@ -33,7 +33,7 @@
                     <pre class="p-3 w-50" style="border: solid 1px;" th:text="${sq.sqComment}"></pre>
                 </div>
                 <div th:if="${not #strings.isEmpty(sq.sqImg)}">
-                    <img th:src="@{images/}+${sq.sqImg}" style="width: 40%;"/>
+                    <img th:src="@{images/}+${sq.sqImg}" class="w-75 p-1"/>
                 </div>
                 <p><input type="text" th:id="${sqq.count}" th:seq="${sq.sqSeq}" class="p-1 w-50 mb-4"/></p>
             </th:block>
@@ -74,6 +74,7 @@
             </textarea></p>
             <input type="button" class="btn btn-outline-success float-right" th:id="|savePQ_${pqq.count}|"
                    value="답안 등록"/><br><br>
+            <hr>
         </th:block>
 
         <br>
@@ -82,7 +83,7 @@
         <th:block th:each="q, qq:${question}" class="p-1 m-3">
             <label class="mb-3" th:text="|${qq.count}. ${q.mcqQuestion}|"></label>
             <div th:if="${not #strings.isEmpty(q.mcqImg)}">
-                <img th:src="@{images/}+${q.mcqImg}" class="w-50 p-1"/>
+                <img th:src="@{images/}+${q.mcqImg}" class="w-75 p-1"/>
             </div>
             <p><input type="radio" th:name="${qq.count}" th:seq="${q.mcqSeq}" th:text="| &#9312; ${q.mcqOption1}|"
                       value="1" class="p-1"/></p>
