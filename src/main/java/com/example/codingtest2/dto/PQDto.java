@@ -15,6 +15,7 @@ public class PQDto {
     private String pqExInput;
     private String pqExOutput;
     private String savedResult;
+    private String pqImg;
 
     public static PQDto toDTO(PQuestion e, String result) {
         return PQDto.builder()
@@ -25,6 +26,7 @@ public class PQDto {
                 .pqComment2(e.getPqComment2())
                 .pqExInput(e.getPqExInput())
                 .pqExOutput(e.getPqExOutput())
+                .pqImg(e.getPqImg())
                 .savedResult(result)
                 .build();
     }

@@ -35,6 +35,9 @@ public class PQuestion {
     @Column(name = "pq_ex_output")
     private String pqExOutput;
 
+    @Column(name = "pq_img")
+    private String pqImg;
+
     public PQuestion(Integer pqSeq){
         this.pqSeq = pqSeq;
     }

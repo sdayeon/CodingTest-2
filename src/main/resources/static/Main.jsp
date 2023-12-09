@@ -48,6 +48,12 @@
                 <span>◉ 조건 및 추가설명</span>
                 <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqComment1}"></pre>
             </div>
+            <div th:if="${not #strings.isEmpty(pq.pqImg)}" class="mb-3">
+                <span>◉ 참고 그림</span>
+                <div style="border: solid 1px;">
+                    <img th:src="@{images/}+${pq.pqImg}" class="w-50 p-1" />
+                </div>
+            </div>
             <div th:unless="${#strings.isEmpty(pq.pqComment2)}">
                 <label>◉ 입출력 설명</label>
                 <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqComment2}"></pre>
