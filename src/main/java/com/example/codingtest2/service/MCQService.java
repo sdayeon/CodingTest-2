@@ -31,10 +31,14 @@ public class MCQService {
     private final MCQResultRepository mcqResultRepository;
     private final UserService userService;
 
-    @Value("${multiple_question_count}")
-    int count;
-
     public List<MCQuestion> findByLevel(String level) {
+
+        // 객관식 문제
+        // 레벨1-4문항, 레벨2-4문항, 레벨3-2문항
+
+        int count = 4;
+        if("3".equals(level)) count = 2;
+
         return queryFactory.selectFrom(mCQuestion)
                 .where(mCQuestion.mcqLevel.eq(level))
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())

@@ -28,10 +28,14 @@ public class SQService {
     private final UserService userService;
     private final SQResultRepository sqResultRepository;
 
-    @Value("${subject_question_count}")
-    int count;
-
     public List<SQuestion> findByLevel(String level) {
+
+        // 주관식 문제
+        // 레벨1-2문항, 레벨2-2문항, 레벨3-0문항
+
+        int count = 2;
+        //if("3".equals(level)) count = 0; limit(0)->error
+
         return queryFactory.selectFrom(sQuestion)
                 .where(sQuestion.sqLevel.eq(level))
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
