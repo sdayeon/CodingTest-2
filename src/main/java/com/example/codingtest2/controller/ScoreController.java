@@ -51,7 +51,6 @@ public class ScoreController {
     @PostMapping(value = "/insertScorePq")
     public String insertScorePq(@ModelAttribute ScoreDto dto) {
         scoreService.updatePQScore(dto);
-        log.info("ddyy - pq: " + dto.getScorePq());
         return "";
     }
 

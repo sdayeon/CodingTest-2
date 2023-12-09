@@ -93,7 +93,6 @@ public class MainController {
 
     @PostMapping(value = "/savePQ_{seq}")
     public String savePQ(@PathVariable("seq") String seq, @SessionAttribute("user") User user, @ModelAttribute PQResultDto dto) {
-        log.info("[{}] {}. {}", seq, dto.getPqSeq(), dto.getPqResult());
         pqService.saveResult(dto, user);
         return "Main";
     }
