@@ -35,7 +35,7 @@ public class PQService {
         // 레벨1-4문항, 레벨2-4문항, 레벨3-8문항
 
         int count = 4;
-        if("3".equals(uu.getUserLevel())) count = 2; //수정전
+        if("3".equals(uu.getUserLevel())) count = 8;
 
         List<PQResult> result = queryFactory.selectFrom(pQResult).where(pQResult.user.eq(uu)).fetch();
         List<PQDto> resultDTO = new ArrayList<>();

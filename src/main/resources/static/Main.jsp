@@ -63,7 +63,7 @@
                     <lable>◉ 입력 예제</lable>
                     <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqExInput}"></pre>
                 </div>
-                <div class="col" th:unless="${#strings.isEmpty(pq.pqExOutput)}">
+                <div class="col-5" th:unless="${#strings.isEmpty(pq.pqExOutput)}">
                     <lable>◉ 출력 예제</lable>
                     <pre class="p-3" style="border: solid 1px;" th:text="${pq.pqExOutput}"></pre>
                 </div>
