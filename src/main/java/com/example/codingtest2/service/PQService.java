@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,12 +73,18 @@ public class PQService {
         return resultDTO;
     }
 
-    public void saveResult(PQResultDto dto, User uu) {
+    public String saveResult(PQResultDto dto, User uu) {
+        LocalDateTime testEndTime = uu.getUserTestEnd();
+        if(LocalDateTime.now().isAfter(testEndTime))
+            return "error";
+
         //개별 임시저장
         queryFactory.update(pQResult)
                 .set(pQResult.pqResult, dto.getPqResult())
                 .where(user.userSeq.eq(uu.getUserSeq())
                         , pQResult.pQuestion.pqSeq.eq(dto.getPqSeq()))
                 .execute();
+
+        return "success";
     }
 }

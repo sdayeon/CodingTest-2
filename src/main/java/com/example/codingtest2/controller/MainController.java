@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -91,9 +92,16 @@ public class MainController {
         return "Main";
     }
 
-    @PostMapping(value = "/savePQ_{seq}")
-    public String savePQ(@PathVariable("seq") String seq, @SessionAttribute("user") User user, @ModelAttribute PQResultDto dto) {
-        pqService.saveResult(dto, user);
+    @PostMapping(value = "/savePQ_{seq}/{id}")
+    public String savePQ(@PathVariable("seq") String seq, @PathVariable("id") String id, @ModelAttribute PQResultDto dto) {
+        User uu = userService.findByUserId(id);
+        String result = pqService.saveResult(dto, uu);
+
+        if("error".equals(result))
+            log.info("[Save programming result ERROR] : {}", uu.getUserId());
+        else
+            log.info("[Save programming result] : {}", uu.getUserId());
+
         return "Main";
     }
 
@@ -111,11 +119,18 @@ public class MainController {
 
         PQResultDto pqrDto = new PQResultDto();
         String[] pqIndex = dto3.getPqResult().split(",,");
+        ArrayList<String> result = new ArrayList<>();
+
         for (int i = 0; i < pqIndex.length; i++) {
             int index = pqIndex[i].indexOf(":");
             pqrDto.setPqSeq(Integer.valueOf(pqIndex[i].substring(0, index)));
             pqrDto.setPqResult(pqIndex[i].substring(index + 1, pqIndex[i].length()));
-            pqService.saveResult(pqrDto, user);
+            result.add(pqService.saveResult(pqrDto, user));
+        }
+
+        for(int i=0; i < result.size(); i++){
+            if("error".equals(result.get(i)))
+                log.info("[Save programming result ERROR] : {}", user.getUserId());
         }
 
         log.info("[Submit] : {}", user.getUserId());
@@ -138,5 +153,10 @@ public class MainController {
     @GetMapping(value = "/error")
     public String error() {
         return "Error";
+    }
+
+    @GetMapping(value = "/sessionConsole")
+    public String sessionConsole(){
+        return "Main";
     }
 }

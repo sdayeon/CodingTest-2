@@ -15,6 +15,7 @@
         <span><b>응시자 : </b><span th:text="${userInfo?.userName}"></span></span>
         <span class="mx-3"><b>학과 : </b><span th:text="${userInfo?.userMajor}"></span></span>
         <span class="mx-3"><b>레벨 : </b><span th:text="${userInfo?.userLevel}"></span></span>
+        <input type="hidden" id="sessionId" th:value="${userInfo?.userId}"/>
     </div>
     <div class="text-right">
         <label id="timer"></label>
@@ -196,7 +197,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_1"
+                , url: "/savePQ_1/"+$("#sessionId").val()
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -217,7 +218,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_2"
+                , url: "/savePQ_2/"+$("#sessionId").val()
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -238,7 +239,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_3"
+                , url: "/savePQ_3/"+$("#sessionId").val()
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -259,7 +260,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_4"
+                , url: "/savePQ_4/"+$("#sessionId").val()
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -280,7 +281,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_5"
+                , url: "/savePQ_5/"+$("#sessionId").val()
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -301,7 +302,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_6"
+                , url: "/savePQ_6/"+$("#sessionId").val()
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -322,7 +323,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_7"
+                , url: "/savePQ_7/"+$("#sessionId").val()
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -343,7 +344,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_8"
+                , url: "/savePQ_8/"+$("#sessionId").val()
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -389,6 +390,18 @@
                 submitAction(0);
             }
         }, 1000);
+
+        let session = setInterval(function () {
+            $.ajax({
+                type: "GET"
+                , url: "/sessionConsole"
+                , success: function (data) {
+                    console.log("session -success");
+                }, error: function () {
+                    console.log("session -error");
+                }
+            });
+        }, 60000);
     });
 </script>
 </body>
