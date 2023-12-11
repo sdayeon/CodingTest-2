@@ -99,8 +99,6 @@ public class MainController {
 
         if("error".equals(result))
             log.info("[Save programming result ERROR] : {}", uu.getUserId());
-        else
-            log.info("[Save programming result] : {}", uu.getUserId());
 
         return "Main";
     }
