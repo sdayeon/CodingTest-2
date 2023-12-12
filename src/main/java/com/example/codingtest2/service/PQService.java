@@ -74,9 +74,8 @@ public class PQService {
     }
 
     public String saveResult(PQResultDto dto, User uu) {
-        LocalDateTime testEndTime = uu.getUserTestEnd();
-        LocalDateTime nowPlus2min = LocalDateTime.now().plusMinutes(2);
-        if(nowPlus2min.isAfter(testEndTime)){
+        LocalDateTime testEndTime = uu.getUserTestEnd().plusMinutes(1);
+        if(LocalDateTime.now().isAfter(testEndTime)){
             log.info("[Finished Test] : {}, Q.{}", uu.getUserId(), dto.getPqSeq());
             return "error";
         }
