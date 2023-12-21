@@ -372,9 +372,24 @@
             }
         }
 
-        let now = new Date();
-        let startDateNum = Date.parse(now) / 1000;
+        //서버 시간
+        let xmlHttpRequest;
+        if(window.XMLHttpRequest){
+            xmlHttpRequest = new XMLHttpRequest();
+        } else if (window.ActiveXObject){
+            xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+        } else {
+            return ;
+        }
 
+        xmlHttpRequest.open('HEAD', window.location.href.toString(), false);
+        xmlHttpRequest.setRequestHeader("ContentType", "text/html");
+        xmlHttpRequest.send('');
+
+        let serverDate = xmlHttpRequest.getResponseHeader("Date");
+        let now = new Date(serverDate);
+
+        let startDateNum = Date.parse(now) / 1000;
         let end = new Date([[${timer}]]);
         let endDateNum = Date.parse(end) / 1000;
         let time = endDateNum - startDateNum;
@@ -391,6 +406,7 @@
             }
         }, 1000);
 
+        //세션 유지
         let session = setInterval(function () {
             $.ajax({
                 type: "GET"
