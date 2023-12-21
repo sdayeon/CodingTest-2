@@ -92,13 +92,12 @@ public class MainController {
         return "Main";
     }
 
-    @PostMapping(value = "/savePQ_{seq}/{id}")
-    public String savePQ(@PathVariable("seq") String seq, @PathVariable("id") String id, @ModelAttribute PQResultDto dto) {
-        User uu = userService.findByUserId(id);
-        String result = pqService.saveResult(dto, uu);
+    @PostMapping(value = "/savePQ_{seq}")
+    public String savePQ(@PathVariable("seq") String seq, @SessionAttribute("user") User user, @ModelAttribute PQResultDto dto) {
+        String result = pqService.saveResult(dto, user);
 
         if("error".equals(result))
-            log.info("[Save programming result ERROR] : {}", uu.getUserId());
+            log.info("[Save programming result ERROR] : {}", user.getUserId());
 
         return "Main";
     }

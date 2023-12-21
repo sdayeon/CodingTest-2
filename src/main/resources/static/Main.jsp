@@ -197,7 +197,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_1/"+$("#sessionId").val()
+                , url: "/savePQ_1"
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -218,7 +218,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_2/"+$("#sessionId").val()
+                , url: "/savePQ_2"
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -239,7 +239,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_3/"+$("#sessionId").val()
+                , url: "/savePQ_3"
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -260,7 +260,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_4/"+$("#sessionId").val()
+                , url: "/savePQ_4"
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -281,7 +281,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_5/"+$("#sessionId").val()
+                , url: "/savePQ_5"
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -302,7 +302,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_6/"+$("#sessionId").val()
+                , url: "/savePQ_6"
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -323,7 +323,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_7/"+$("#sessionId").val()
+                , url: "/savePQ_7"
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
@@ -344,7 +344,7 @@
 
             $.ajax({
                 type: "POST"
-                , url: "/savePQ_8/"+$("#sessionId").val()
+                , url: "/savePQ_8"
                 , data: {
                     "pqSeq": pqSeq
                     , "pqResult": pqResult
